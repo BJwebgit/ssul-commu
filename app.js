@@ -10,6 +10,7 @@ const methodOverride = require('method-override');
 const app = express();
 
 app.use(methodOverride('_method'));
+app.use('/node_modules', express.static(path.join(__dirname, '/node_modules')));
 
 models.sequelize.sync().then( () => {
   console.log(" DB 연결 성공");

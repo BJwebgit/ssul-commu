@@ -80,6 +80,10 @@ a{
     padding: 10px 10px;
     margin-bottom: 25px;
 }
+#select_form{
+    padding: 0px 10px;
+    height: 41px;
+}
 #form-button{
     margin-top: 40px;
     width: 500px;

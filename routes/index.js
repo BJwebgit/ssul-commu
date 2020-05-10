@@ -36,26 +36,19 @@ router.post('/board/write', function(req, res, next) {
   })
 });
 
-router.get('/board/:id', async function(req, res, next) {
-  let result = await models.post.findAll();
-  if (result){
-    for(let post of result){
-      let result2 = await models.post.findOne({
-        include: {
-          model: models.reply,
-          where: {
-            postId: post.id
-          }
-        }
-      })
-      if(result2){
-        post.replies = result2.replies
-      }
-    } 
-  }
-  res.render("board_id", {
-    posts : result
-  });
+router.get('/board/:id', function (req, res, next) {
+  let postID = req.params.id;
+  models.post.findOne({
+    where: { id: postID }
+  }).then(result => {
+    models.reply.findAll({
+      where:{postId:postID}
+    }).then(result2 =>{ 
+    res.render("board_id", {
+      post: result,replies:result2
+    });
+    })
+  })
 });
 
 router.post('/board/:id', function(req, res, next) {

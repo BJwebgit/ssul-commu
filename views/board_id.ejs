@@ -16,7 +16,6 @@
                     <p>게시글 목록</p>
                 </div>
                 <div id="title-div">
-                    <% for(let post of posts) { %>
                     <table>
                         <tbody>
                             <tr>
@@ -59,14 +58,15 @@
                     <div>
                         <table>
                             <tbody>
+                                <% for(let reply of replies) { %>
                                 <tr>
                                     <td class="text-align"><span><%= reply.content %></span></td>
                                     <td colspan="8"><p class="w100"><%= reply.content %></p></td>
                                 </tr>
+                                <% } %>
                             </tbody>
                         </table>
                     </div>
-                    <% } %>
                 </div>
             </div>
         </div>
