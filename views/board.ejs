@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ssul</title>
+    <link rel="stylesheet" href="/stylesheets/board.css">
+</head>
+<body>
+    <% include header %>
+    <% include nav %>
+    <section>
+        <div class="center-align">
+            <div id="inner-div">
+                <div id="main-top">
+                    <p>게시글 목록</p>
+                </div>
+                <div id="title-div">
+                    <table>
+                        <tbody>
+                            <tr id="title-table">
+                                <td>번호</td>
+                                <td colspan="8">제목</td>
+                                <td colspan="2">작성자</td>
+                                <td colspan="2">작성일</td>
+                                <td>조회수</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div id="comment-div">
+                    <table>
+                        <tbody>
+                            <% for(let post of posts) { %>
+                            <tr class="main-table">
+                                <td class="align"><%= post.id %></td>
+                                <td colspan="8" class="title-td"><a href="./board/<%= post.id %>"><%= post.title %></a></td>
+                                <td colspan="2" class="align"><%= post.writer %></td>
+                                <td colspan="2" class="align"><%= post.createdAt.toLocaleString() %></td>
+                                <td class="align">1</td>
+                            </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    <button id="write-btn">글쓰기</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script>
+        var sing_up = document.getElementById('sing_up_btn');
+        var login = document.getElementById('login_btn');
+        var write_btn = document.getElementById('write-btn');
+        sing_up.addEventListener('click', function(event){
+            location.href='./login/Sign_Up';
+        });
+        login.addEventListener('click', function(event){
+            location.href='./login';
+        });
+        write_btn.addEventListener('click', function(event){
+            location.href='./board/write';
+        })
+    </script>
+</body>
+</html>

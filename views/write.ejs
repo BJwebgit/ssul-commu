@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ssul</title>
+    <link rel="stylesheet" href="/stylesheets/write.css">
+</head>
+<body>
+    <% include header %>
+    <% include nav %>
+    <section>
+        <div class="center-align">
+            <div id="inner-div">
+                <div id="main-top">
+                    <p>게시글 목록</p>
+                </div>
+                <div id="title-div">
+                    <form action="/board/write" method="post">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td class="text-align"><span>제목</span></td>
+                                    <td colspan="8"><input type="text" name="inputTitle" placeholder="제목을 입력하세요." class="w100"></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-align"><span>작성자</span></td>
+                                    <td colspan="8"><input type="text" name="inputWriter" placeholder="작성자를 입력하세요." class="w100"></td>
+                                </tr> 
+                                <tr>
+                                    <td class="text-align"><span>내용</span></td>
+                                    <td colspan="8"><textarea name="content" class="w100" rows="10"></textarea></td>
+                                </tr> 
+                            </tbody>
+                        </table>
+                        <input type="submit" value="저장" id="submit-btn">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script>
+        var sing_up = document.getElementById('sing_up_btn');
+        var login = document.getElementById('login_btn');
+        var write_btn = document.getElementById('write-btn');
+        sing_up.addEventListener('click', function(event){
+            location.href='../login/Sign_Up';
+        });
+        login.addEventListener('click', function(event){
+            location.href='../login';
+        });
+        write_btn.addEventListener('click', function(event){
+            location.href='./board/write';
+        })
+    </script>
+</body>
+</html>

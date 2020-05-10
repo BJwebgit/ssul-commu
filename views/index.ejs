@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="eg">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ssul</title>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+  </head>
+  <body>
+    <% include header %>
+    <% include nav %>
+    <section>
+      <div class="center-align" id="section-div">
+          <div class="section-div-div" id="section-main">
+              <h1>베스트 썰</h1>
+              <p>한여름의 무더위를 싹 날려버릴 썰들이 등장했다? 많은 유저들의 공감을 얻은 인기 게시글들이 모인 베스트 썰 게시판으로 가자!</p>
+              <br><br>
+              <a href="#">[이동]</a>
+          </div>
+          <div class="section-div-div" id="comm">
+              <div class="inline-block center-comm" id="center-comm-left">
+                  <div class="center-comm-top">
+                      <div class="inline-block w-50">
+                          <a href="#">최근 게시글</a>
+                      </div>
+                      <div class="inline-block w-50">
+                          <a href="#">[더 보기]</a>
+                      </div>
+                  </div>
+                  <div class="center-comm-bottom">
+                      <ul>
+                          <li><a href="#">▷ 새로운 게시글입니다.</a></li>
+                          <li><a href="#">▷ [답글] 새로운 게시글입니다.</a></li>
+                          <li><a href="#">▷ [답글] [답글] 새로운 게시글입니다2</a></li>
+                          <li><a href="#">▷ [답글] [답글] 새로운 게시글입니다2</a></li>
+                          <li><a href="#">▷ 새로운 게시글</a></li>
+                      </ul>
+                  </div>
+              </div>
+              <div class="inline-block center-comm">
+                  <div class="center-comm-top">
+                      <div class="inline-block w-50">
+                          <a href="#">최근 게시글</a>
+                      </div>
+                      <div class="inline-block w-50">
+                          <a href="#">[더 보기]</a>
+                      </div>
+                  </div>
+                  <div class="center-comm-bottom">
+                      <ul>
+                          <li><a href="#">▷ 새로운 게시글입니다.</a></li>
+                          <li><a href="#">▷ [답글] 새로운 게시글입니다.</a></li>
+                          <li><a href="#">▷ [답글] [답글] 새로운 게시글입니다2</a></li>
+                          <li><a href="#">▷ [답글] [답글] 새로운 게시글입니다2</a></li>
+                          <li><a href="#">▷ 새로운 게시글</a></li>
+                      </ul>
+                  </div>
+              </div>
+          </div>
+      </div>
+    </section>
+    <% include footer %>
+    <script>
+        var sing_up = document.getElementById('sing_up_btn');
+        var login = document.getElementById('login_btn');
+        sing_up.addEventListener('click', function(event){
+            location.href='./login/Sign_Up';
+        });
+        login.addEventListener('click', function(event){
+            location.href='./login';
+        });
+    </script>
+  </body>
+</html>

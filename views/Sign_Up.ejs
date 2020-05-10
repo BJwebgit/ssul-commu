@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+    <html lang="ko">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Ssul</title>
+        <link rel="stylesheet" href="/stylesheets/Sign_Up.css">
+    </head>
+    <body>
+        <% include header %>
+        <% include nav %>
+        <section>
+            <div class="center-align">
+                <div id="sign-main">
+                    <p style="font-size: 50px;">회 원 가 입</p>
+                    <form action="/login/Sign_Up/sign_up" method="post" class="text-left" id="target">
+                        <p>이메일 주소</p>
+                        <input type="email" class="form-text" placeholder="이메일" name="email" required>
+                        <p>비밀번호 <span id="pwd_length"></span></p> 
+                        <input type="password" class="form-text" name="password" id="pwd" onchange="isSame()" required>
+                        <p>비밀번호 확인 <span id="same"></span></p>
+                        <input type="password" class="form-text" name="ptest" id="pwd_test" onchange="isSame()" required>
+                        <p>닉네임</p>
+                        <input type="text" class="form-text" name="nickname" required>
+                        <p>전화번호</p>
+                        <input type="tel" class="form-text" name="tel" required>
+                        <p>지역</p>
+                        <select class="form-text" name="area" required>
+                            <option value="1" selected>--지역--</option>
+                            <option value="2">서울</option>
+                            <option value="3">대구</option>
+                            <option value="4">부산</option>
+                        </select>
+                        <p>성별</p>
+                        <div>
+                            <input type="radio" name="gender" value="남" checked>남자
+                            <input type="radio" name="gender" value="여">여자
+                        </div>
+                        <input type="submit" value="회원 가입 신청" id="form-button" onclick="result()">
+                    </form>
+                </div>
+            </div>
+        </section>
+        <script>
+            var sing_up = document.getElementById('sing_up_btn');
+            var login = document.getElementById('login_btn');
+            sing_up.addEventListener('click', function(event){
+                location.href='./Sign_Up';
+            });
+            login.addEventListener('click', function(event){
+                location.href='../login';
+            });
+            function isSame(){            
+                var pwd = document.getElementById('pwd');
+                var pwd_test = document.getElementById('pwd_test');
+                var pwd_length = document.getElementById('pwd_length');
+                var same = document.getElementById('same');
+    
+                if(pwd.value.length < 6 || pwd.value.length > 16){
+                    pwd_length.innerHTML = '6자리 이상 16미만';
+                    pwd_length.style.color = 'red'
+                }
+                else{
+                    pwd_length.innerHTML = '';
+                    if(pwd.value === pwd_test.value){
+                        same.innerHTML = '비밀번호가 일치합니다';
+                        same.style.color = 'blue';
+                        same.style.fontSize = '13px';
+                    }
+                    else if(pwd.value != pwd_test.value && pwd_test.value.length != 0){
+                        same.innerHTML = '비밀번호가 일치하지 않습니다';
+                        same.style.color = 'red';
+                        same.style.fontSize = '13px';
+                    }
+                    else{
+                        same.innerHTML = '';
+                    }
+                }
+            }
+        </script>
+    </body>
+    </html>
