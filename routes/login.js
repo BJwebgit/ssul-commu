@@ -19,16 +19,45 @@ router.post('/login', function(req, res, next) {
       if(err){
           throw err;
       }
+      if(result[0] === undefined){
+        res.redirect("/login");
+      }
       var dbpassword = result[0].password;
       var hashPassword = crypto.createHash("sha512").update(inputPassword).digest("hex");
       if(dbpassword === hashPassword){
         console.log("비밀번호 일치");
+        res.cookie("userid", post.email , {
+          expires: new Date(Date.now() + 900000),
+          httpOnly: true
+        });
         res.redirect("/");
       }
       else{
         console.log("비밀번호 불일치");
         res.redirect("/login");
       }
+  });
+});
+
+router.post('/check_login', function(req, res, next) {
+  var check = 0;
+  let form_id = req.body.id;
+  console.log("form_id : "+form_id);
+  db.query(`select email FROM login`, function(error, db_email){
+    if(error) console.log("[mysql] users DB -> user2.js error ");
+    for(var i = 0; i<db_email.length; i++){
+      if(db_email[i].email === form_id){
+        check = 1;
+        console.log();
+        res.send('0');
+        console.log("ID CHECK ajax로 전송완료");
+        break;
+      }
+    }
+    if(check === 0){
+      res.send('1');
+      console.log("ID CHECK ajax로 전송완료");
+    }
   });
 });
 
@@ -57,24 +86,7 @@ router.post('/Sign_Up/sign_up', function(req, res, next) {
 
 router.post('/check_id', function(req, res, next) {
   var check = 0;
-  let form_id = req.body.id;
-  console.log("form_id : "+form_id);
-  db.query(`select email FROM login`, function(error, db_email){
-    if(error) console.log("[mysql] users DB -> user2.js error ");
-    for(var i = 0; i<db_email.length; i++){
-      if(db_email[i].email === form_id){
-        check = 1;
-        console.log();
-        res.send('0');
-        console.log("ID CHECK ajax로 전송완료");
-        break;
-      }
-    }
-    if(check === 0){
-      res.send('1');
-      console.log("ID CHECK ajax로 전송완료");
-    }
-  });
+  console.log("form_id : "+req.body);
 });
 
 router.post('/check_nick', function(req, res, next) {

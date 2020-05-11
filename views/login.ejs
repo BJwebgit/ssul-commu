@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Ssul-login</title>
         <link rel="stylesheet" href="/stylesheets/login.css">
+        <script type="text/javascript" src="/javascripts/login.js"></script>
     </head>
     <body>
         <% include header %>
@@ -13,7 +14,7 @@
             <div class="center-align">
                 <div id="sign-main">
                     <p id="login-p">로 그 인</p>
-                    <form action="/login/login" method="post" class="text-left">
+                    <form action="/login/login" method="post" class="text-left" onsubmit="return submitCheck()">
                         <input type="email" class="form-text" name="email" required>
                         <input type="password" class="form-text" name="password" required>
                         <input type="submit" value="로 그 인" id="form-button">
