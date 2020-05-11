@@ -32,7 +32,8 @@ router.post('/board/write', function(req, res, next) {
   models.post.create({
     title: body.inputTitle,
     writer: body.inputWriter,
-    content: body.content
+    content: body.content,
+    views: 1
   })
   .then( result => {
     console.log("데이터 추가 완료");
@@ -47,17 +48,13 @@ router.get('/board/:id', function (req, res, next) {
   let postID = req.params.id;
   models.post.findOne({
     where: { id: postID }
-  }).then(result => {
-    models.reply.update({views: views+1},{
-      where:{id:postID}
-    }).then(result3 =>{ 
+  }).then(result => { 
       models.reply.findAll({
         where:{postId:postID}
       }).then(result2 =>{ 
       res.render("board_id", {
         post: result,replies:result2
       });
-      })
     })
   })
 });
@@ -65,7 +62,6 @@ router.get('/board/:id', function (req, res, next) {
 router.post('/board/:id', function(req, res, next) {
   let postID = req.params.id;
   let body = req.body;
-  console.log(postID);
   models.reply.create({
     postId: postID,
     writer: body.inputWriter,

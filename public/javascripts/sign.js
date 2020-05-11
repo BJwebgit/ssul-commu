@@ -25,7 +25,7 @@ $(function () {
             },
             success: function (data) {	//data : check_id에서 넘겨준 결과값
                 console.log("ajax에서 받은 값은 : " + data);
-                if ($.trim(data) == '1') {
+                if ($.trim(data) === '1') {
                     if ($('#id').val() != '') {
                         $("#email_id").html("사용가능합니다");
                         $("#email_id").css("color", "red");
@@ -33,7 +33,7 @@ $(function () {
                         e_mail = 1;
                     }
                 } 
-                else if($.trim(data) == '0'){
+                else if($.trim(data) === '0'){
                     $("#email_id").html("사용불가능합니다");
                     $("#email_id").css("color", "red");
                     $("#email_id").css("font-size", "12px");
