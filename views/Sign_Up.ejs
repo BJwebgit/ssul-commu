@@ -15,7 +15,7 @@
             <div class="center-align">
                 <div id="sign-main">
                     <p style="font-size: 50px;">회 원 가 입</p>
-                    <form action="/login/Sign_Up/sign_up" method="post" class="text-left" id="target">
+                    <form action="/login/Sign_Up/sign_up" method="post" class="text-left" id="target" onsubmit="return submitCheck()">
                         <p>이메일 주소 <span id="email_id"></span></p>
                         <input type="email" class="form-text" placeholder="이메일" name="email" id="id" required>
                         <p>비밀번호 <span id="pwd_length"></span></p> 
@@ -37,7 +37,7 @@
                             <input type="radio" name="gender" value="남" checked>남자
                             <input type="radio" name="gender" value="여">여자
                         </div>
-                        <input type="submit" value="회원 가입 신청" id="form-button" onclick="result()">
+                        <input type="submit" value="회원 가입 신청" id="form-button">
                     </form>
                 </div>
             </div>

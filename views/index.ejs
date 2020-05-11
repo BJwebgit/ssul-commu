@@ -15,35 +15,33 @@
               <h1>베스트 썰</h1>
               <p>한여름의 무더위를 싹 날려버릴 썰들이 등장했다? 많은 유저들의 공감을 얻은 인기 게시글들이 모인 베스트 썰 게시판으로 가자!</p>
               <br><br>
-              <a href="#">[이동]</a>
+              <a href="/board">[이동]</a>
           </div>
           <div class="section-div-div" id="comm">
               <div class="inline-block center-comm" id="center-comm-left">
                   <div class="center-comm-top">
                       <div class="inline-block w-50">
-                          <a href="#">최근 게시글</a>
+                          <a href="/board">최근 게시글</a>
                       </div>
                       <div class="inline-block w-50">
-                          <a href="#">[더 보기]</a>
+                          <a href="/board">[더 보기]</a>
                       </div>
                   </div>
                   <div class="center-comm-bottom">
                       <ul>
-                          <li><a href="#">▷ 새로운 게시글입니다.</a></li>
-                          <li><a href="#">▷ [답글] 새로운 게시글입니다.</a></li>
-                          <li><a href="#">▷ [답글] [답글] 새로운 게시글입니다2</a></li>
-                          <li><a href="#">▷ [답글] [답글] 새로운 게시글입니다2</a></li>
-                          <li><a href="#">▷ 새로운 게시글</a></li>
+                        <% for(let post of posts) { %>
+                            <li><a href="#">▷ <%= post.content %></a></li>
+                        <% } %>
                       </ul>
                   </div>
               </div>
               <div class="inline-block center-comm">
                   <div class="center-comm-top">
                       <div class="inline-block w-50">
-                          <a href="#">최근 게시글</a>
+                          <a href="/board">인기 게시글</a>
                       </div>
                       <div class="inline-block w-50">
-                          <a href="#">[더 보기]</a>
+                          <a href="/board">[더 보기]</a>
                       </div>
                   </div>
                   <div class="center-comm-bottom">

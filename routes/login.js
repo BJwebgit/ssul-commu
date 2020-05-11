@@ -10,6 +10,30 @@ router.get('/', function(req, res, next) {
   res.render('login', { title: 'Express' });
 });
 
+router.post('/login', function(req, res, next) {
+  var post = req.body;
+  console.log("post "+ post);
+  var inputPassword = post.password;
+  db.query(`select email, password from login where email=?`,
+    [post.email],
+    function(err, result){
+      if(err){
+          throw err;
+      }
+      var dbpassword = result[0].password.salt;
+      var salt = Math.round((new Date().valueOf() * Math.random())) + "";
+      var hashPassword = crypto.createHash("sha512").update(inputPassword + salt).digest("hex");
+      if(dbpassword === hashPassword){
+        console.log("비밀번호 일치");
+        res.redirect("/");
+      }
+      else{
+        console.log("비밀번호 불일치");
+        res.redirect("/login");
+      }
+  });
+});
+
 router.get('/Sign_Up', function(req, res, next) {
   models.post.findAll().then( result => {
     res.render("Sign_Up", {
@@ -20,7 +44,6 @@ router.get('/Sign_Up', function(req, res, next) {
 
 router.post('/Sign_Up/sign_up', function(req, res, next) {
   var post = req.body;
-  console.log(post);
   var inputPassword = post.password;
   var salt = Math.round((new Date().valueOf() * Math.random())) + "";
   var hashPassword = crypto.createHash("sha512").update(inputPassword + salt).digest("hex");

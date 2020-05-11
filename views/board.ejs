@@ -37,7 +37,7 @@
                                 <td colspan="8" class="title-td"><a href="./board/<%= post.id %>"><%= post.title %></a></td>
                                 <td colspan="2" class="align"><%= post.writer %></td>
                                 <td colspan="2" class="align"><%= post.createdAt.toLocaleString() %></td>
-                                <td class="align">1</td>
+                                <td class="align"><%= post.views %></td>
                             </tr>
                             <% } %>
                         </tbody>
@@ -50,14 +50,14 @@
         </div>
     </section>
     <script>
-        var sing_up = document.getElementById('sing_up_btn');
+        var sign_up = document.getElementById('sign_up_btn');
         var login = document.getElementById('login_btn');
         var write_btn = document.getElementById('write-btn');
-        sing_up.addEventListener('click', function(event){
+        sign_up.addEventListener('click', function(event){
             location.href='./login/Sign_Up';
         });
         login.addEventListener('click', function(event){
-            location.href='./login';
+            location.href='../login';
         });
         write_btn.addEventListener('click', function(event){
             location.href='./board/write';

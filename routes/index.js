@@ -5,7 +5,14 @@ const methodOverride = require('method-override');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index');
+  models.post.findAll({
+    limit: 5,
+    order: [['createdAt', 'DESC']]
+  }).then( result => {
+    res.render("index", {
+      posts: result
+    });
+  });
 });
 
 router.get('/board', function(req, res, next) {
@@ -41,12 +48,16 @@ router.get('/board/:id', function (req, res, next) {
   models.post.findOne({
     where: { id: postID }
   }).then(result => {
-    models.reply.findAll({
-      where:{postId:postID}
-    }).then(result2 =>{ 
-    res.render("board_id", {
-      post: result,replies:result2
-    });
+    models.reply.update({views: views+1},{
+      where:{id:postID}
+    }).then(result3 =>{ 
+      models.reply.findAll({
+        where:{postId:postID}
+      }).then(result2 =>{ 
+      res.render("board_id", {
+        post: result,replies:result2
+      });
+      })
     })
   })
 });

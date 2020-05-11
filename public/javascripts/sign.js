@@ -1,3 +1,8 @@
+var e_mail = 0;
+var pword = 0;
+var t_pword = 0;
+var nick_name = 0;
+
 window.onload = function(){
     var sign_up = document.getElementById('sign_up_btn');
     var login = document.getElementById('login_btn');
@@ -25,12 +30,14 @@ $(function () {
                         $("#email_id").html("사용가능합니다");
                         $("#email_id").css("color", "red");
                         $("#email_id").css("font-size", "12px");
+                        e_mail = 1;
                     }
                 } 
                 else if($.trim(data) == '0'){
                     $("#email_id").html("사용불가능합니다");
                     $("#email_id").css("color", "red");
                     $("#email_id").css("font-size", "12px");
+                    e_mail = 0;
                 }
                 
                 else {
@@ -49,14 +56,17 @@ $(function () {
                 $("#pwd_length").html("8~20자 영문, 숫자, 특수문자를 모두 사용해야합니다");
                 $("#pwd_length").css("color", "red");
                 $("#pwd_length").css("font-size", "12px");
+                pword = 0;
             }
             else if(pw.search(/\s/) != -1){
                 $("#pwd_length").html("비밀번호는 공백 없이 입력해주세요");
                 $("#pwd_length").css("color", "red");
                 $("#pwd_length").css("font-size", "12px");
+                pword = 0;
             }
             else {
                 $("#pwd_length").html("");
+                pword = 1;
             }
         }
     })
@@ -75,17 +85,19 @@ $(function () {
                         $("#nick_check").html("사용가능합니다");
                         $("#nick_check").css("color", "red");
                         $("#nick_check").css("font-size", "12px");
+                        nick_name = 1;
                     }
                 } 
                 else if($.trim(data) === '0'){
                     $("#nick_check").html("사용불가능합니다");
                     $("#nick_check").css("color", "red");
                     $("#nick_check").css("font-size", "12px");
+                    nick_name = 0;
                 }
-                
                 else {
                     if ($('#nick').val() != '') {
                         alert(data);
+                        nick_name = 0;
                     }
                 }
             }
@@ -101,13 +113,35 @@ function isSame(){
         same.innerHTML = '비밀번호가 일치합니다';
         same.style.color = 'blue';
         same.style.fontSize = '13px';
+        t_pword = 1;
     }
     else if(pwd.value != pwd_test.value && pwd_test.value.length != 0){
         same.innerHTML = '비밀번호가 일치하지 않습니다';
         same.style.color = 'red';
         same.style.fontSize = '13px';
+        t_pword = 0;
     }
     else{
         same.innerHTML = '';
+        t_pword = 0;
+    }
+}
+function submitCheck() {
+    if (e_mail === 0) {
+        alert('아이디 조건이 맞지 않습니다.');
+        return false;
+    }
+    else if (pword === 0) {
+        alert('비밀번호 조건이 맞지 않습니다.');
+        return false;
+    } else if (t_pword === 0) {
+        alert('비밀번호 확인이 일치하지 않습니다.');
+        return false;
+    } else if (nick_name === 0) {
+        alert('닉네임 조건이 맞지 않습니다.');
+        return false;
+    }
+    else{
+        return true;
     }
 }
