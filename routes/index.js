@@ -10,21 +10,36 @@ router.get('/', function(req, res, next) {
     order: [['createdAt', 'DESC']]
   }).then( result => {
     res.render("index", {
-      posts: result
+      posts: result, session:req.session
     });
   });
 });
 
 router.get('/board', function(req, res, next) {
-  models.post.findAll().then( result => {
-    res.render("board", {
-      posts: result
+  if(req.session.email === undefined){
+    models.post.findAll().then( result => {
+      console.log(req.session);
+      res.render("board", {
+        posts: result, session:false
+      });
     });
-  });
+  }
+  else{
+    models.post.findAll().then( result => {
+      console.log(req.session);
+      res.render("board", {
+        posts: result, session:req.session
+      });
+    });
+  }
 });
 
 router.get('/board/write', function(req, res, next) {
-  res.render('write');
+  var req_email = req.session.email;
+  var req_id = req_email.split("@");
+  res.render('write', {
+    session: req_id
+  });
 });
 
 router.post('/board/write', function(req, res, next) {
@@ -45,6 +60,7 @@ router.post('/board/write', function(req, res, next) {
 });
 
 router.get('/board/:id', function (req, res, next) {
+  console.log(req.session.email);
   let postID = req.params.id;
   models.post.findOne({
     where: { id: postID }

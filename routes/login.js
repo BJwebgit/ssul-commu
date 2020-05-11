@@ -10,7 +10,7 @@ router.get('/', function(req, res, next) {
   res.render('login', { title: 'Express' });
 });
 
-router.post('/login', function(req, res, next) {
+router.post('/', function(req, res, next) {
   var post = req.body;
   var inputPassword = post.password;
   db.query(`select email, password from login where email=?`,
@@ -26,10 +26,7 @@ router.post('/login', function(req, res, next) {
       var hashPassword = crypto.createHash("sha512").update(inputPassword).digest("hex");
       if(dbpassword === hashPassword){
         console.log("비밀번호 일치");
-        res.cookie("userid", post.email , {
-          expires: new Date(Date.now() + 900000),
-          httpOnly: true
-        });
+        req.session.email = post.email;
         res.redirect("/");
       }
       else{
@@ -48,7 +45,6 @@ router.post('/check_login', function(req, res, next) {
     for(var i = 0; i<db_email.length; i++){
       if(db_email[i].email === form_id){
         check = 1;
-        console.log();
         res.send('0');
         console.log("ID CHECK ajax로 전송완료");
         break;
@@ -62,6 +58,7 @@ router.post('/check_login', function(req, res, next) {
 });
 
 router.get('/Sign_Up', function(req, res, next) {
+  console.log(req.session.email);
   models.post.findAll().then( result => {
     res.render("Sign_Up", {
       posts: result
@@ -86,13 +83,27 @@ router.post('/Sign_Up/sign_up', function(req, res, next) {
 
 router.post('/check_id', function(req, res, next) {
   var check = 0;
-  console.log("form_id : "+req.body);
+  let form_id = req.body.id;
+  db.query(`select nickname FROM login`, function(error, db_id){
+    if(error) console.log("[mysql] users DB -> user2.js error ");
+    for(var i = 0; i<db_id.length; i++){
+      if(db_id[i].nickname === form_id){
+        check = 1;
+        res.send('0');
+        console.log("ID CHECK ajax로 전송완료");
+        break;
+      }
+    }
+    if(check === 0){
+      res.send('1');
+      console.log("ID CHECK ajax로 전송완료");
+    }
+  });
 });
 
 router.post('/check_nick', function(req, res, next) {
   var check = 0;
   let form_nick = req.body.nick;
-  console.log("1"+form_nick);
   db.query(`select nickname FROM login`, function(error, db_nick){
     if(error) console.log("[mysql] users DB -> user2.js error ");
     for(var i = 0; i<db_nick.length; i++){

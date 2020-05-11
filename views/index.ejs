@@ -7,7 +7,23 @@
     <link rel="stylesheet" href="/stylesheets/style.css">
   </head>
   <body>
-    <% include header %>
+    <header>
+        <div class="center-align" id="header-div">
+            <div class="inline-block" id="header-left"><a href="/"></a></div>
+            <div class="inline-block" id="header-center"><a href="/">Ssul</a></div>
+            <div class="inline-block" id="header-right">
+                <div class="inline-block">
+                    <% if(session.email){ %> 
+                        <button id="login_btn">마이페이지</button> 
+                        <button id="sign_up_btn">로그아웃</button>
+                    <% } else{ %>
+                        <button id="login_btn">로그인</button> 
+                        <button id="sign_up_btn">회원가입</button>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </header>
     <% include nav %>
     <section>
       <div class="center-align" id="section-div">

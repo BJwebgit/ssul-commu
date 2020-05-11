@@ -7,6 +7,7 @@ const models = require("./models/index.js");
 const indexRouter = require('./routes/index');
 const loginRouter = require('./routes/login');
 const methodOverride = require('method-override');
+const session = require('express-session');
 const app = express();
 
 app.use(methodOverride('_method'));
@@ -18,6 +19,16 @@ models.sequelize.sync().then( () => {
   console.log("연결 실패");
   console.log(err);
 })
+
+app.use(session({
+  key: 'sid',
+  secret: 'secret',
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    maxAge: 24000 * 60 * 60 // 쿠키 유효기간 24시간
+  }
+}));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
