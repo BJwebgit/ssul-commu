@@ -36,15 +36,11 @@
                                 </tr>
                                 <tr>
                                     <td class="text-align"><span>작성자</span></td>
-                                    <% if(session){ %> 
-                                        <td colspan="8"><input type="text" name="inputWriter" value="<%= session[0] %>" class="w100" readonly></td>
-                                    <% } else{ %>
-                                        <td colspan="8"><input type="text" name="inputWriter" placeholder="작성자를 입력하세요." class="w100"></td>
-                                    <% } %>
+                                    <td colspan="8"><input type="text" name="inputWriter" value="<%= nick %>" class="w100" readonly></td>
                                 </tr> 
                                 <tr>
                                     <td class="text-align"><span>내용</span></td>
-                                    <td colspan="8"><textarea name="content" class="w100" rows="10"></textarea></td>
+                                    <td colspan="8"><textarea name="content" class="w100" rows="10" placeholder="내용을 입력하세요"></textarea></td>
                                 </tr> 
                             </tbody>
                         </table>

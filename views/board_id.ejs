@@ -50,40 +50,48 @@
                         </tbody>
                     </table>
                     <div id="up-del-btn">
-                        <button class="inline-block" id="reply_btn">댓글</button>
-                        <button class="inline-block"><a href="/board/update/<%=post.id%>">수정하기</a></button>
-                        <form action="/board/<%=post.id%>?_method=DELETE" method="post" class="inline-block">
-                            <td><input type="submit" value="삭제하기"></input></td>
-                        </form>
+                        <% if(post.writer === nick){ %> 
+                            <button class="inline-block" id="reply_btn">댓글</button>
+                            <button class="inline-block"><a href="/board/update/<%=post.id%>">수정하기</a></button>
+                            <form action="/board/<%=post.id%>?_method=DELETE" method="post" class="inline-block">
+                                <td><input type="submit" value="삭제하기"></input></td>
+                            </form>
+                            <button class="inline-block"><a href="/board">목록</a></button>
+                        <% } else{ %>
+                            <button class="inline-block" id="reply_btn">댓글</button>
+                            <button class="inline-block"><a href="/board">목록</a></button>
+                        <% } %>
                     </div>
                     <div id="reply_form">
-                        <form action="/board/<%=post.id%>" method="post" id="reply_form">
+                        <div>
+                            <form action="/board/user/<%=post.id%>" method="post">
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <td class="text-align"><span>ID</span></td>
+                                            <td colspan="8"><input type="text" name="inputWriter" value="<%= nick %>" class="w100" readonly></td>
+                                        </tr> 
+                                        <tr>
+                                            <td class="text-align"><span>내용</span></td>
+                                            <td colspan="8"><textarea name="content" class="w100" rows="10" placeholder="댓글을 입력하세요"></textarea></td>
+                                        </tr> 
+                                    </tbody>
+                                </table>
+                                <input type="submit" value="저장" id="submit-btn">
+                            </form>
+                        </div>
+                        <div>
                             <table>
                                 <tbody>
+                                    <% for(let reply of replies) { %>
                                     <tr>
-                                        <td class="text-align"><span>ID</span></td>
-                                        <td colspan="8"><input type="text" name="inputWriter" value="<%= session[0] %>" class="w100" readonly></td>
-                                    </tr> 
-                                    <tr>
-                                        <td class="text-align"><span>내용</span></td>
-                                        <td colspan="8"><textarea name="content" class="w100" rows="10">댓글을 입력하세요</textarea></td>
-                                    </tr> 
+                                        <td class="text-align"><span><%= reply.writer %></span></td>
+                                        <td colspan="8"><p class="w100"><%= reply.content %></p></td>
+                                    </tr>
+                                    <% } %>
                                 </tbody>
                             </table>
-                            <input type="submit" value="저장" id="submit-btn">
-                        </form>
-                    </div>
-                    <div>
-                        <table>
-                            <tbody>
-                                <% for(let reply of replies) { %>
-                                <tr>
-                                    <td class="text-align"><span><%= reply.content %></span></td>
-                                    <td colspan="8"><p class="w100"><%= reply.content %></p></td>
-                                </tr>
-                                <% } %>
-                            </tbody>
-                        </table>
+                        </div>
                     </div>
                 </div>
             </div>

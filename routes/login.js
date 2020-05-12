@@ -7,31 +7,35 @@ const crypto = require('crypto');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  res.render('login', { title: 'Express' });
+  res.render('login');
 });
 
 router.post('/', function(req, res, next) {
   var post = req.body;
   var inputPassword = post.password;
-  db.query(`select email, password from login where email=?`,
+  db.query(`select email, password, nickname from login where email=?`,
     [post.email],
     function(err, result){
       if(err){
           throw err;
       }
+      console.log(result[0]);
       if(result[0] === undefined){
         res.redirect("/login");
       }
-      var dbpassword = result[0].password;
-      var hashPassword = crypto.createHash("sha512").update(inputPassword).digest("hex");
-      if(dbpassword === hashPassword){
-        console.log("비밀번호 일치");
-        req.session.email = post.email;
-        res.redirect("/");
-      }
       else{
-        console.log("비밀번호 불일치");
-        res.redirect("/login");
+        var dbpassword = result[0].password;
+        var hashPassword = crypto.createHash("sha512").update(inputPassword).digest("hex");
+        if(dbpassword === hashPassword){
+          console.log("비밀번호 일치");
+          req.session.email = post.email;
+          req.session.nickname = result[0].nickname;
+          res.redirect("/");
+        }
+        else{
+          console.log("비밀번호 불일치");
+          res.redirect("/login");
+        }
       }
   });
 });

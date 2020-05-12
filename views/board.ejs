@@ -18,8 +18,8 @@
                         <button id="mypage"><a href="#">마이페이지</a></button> 
                         <button id="logout"><a href="/logout">로그아웃</a></button>
                     <% } else{ %>
-                        <button id="login_btn"><a href="./login">로그인</a></button> 
-                        <button id="sign_up_btn"><a href="./login/Sign_Up">회원가입</a></button>
+                        <button id="login_btn"><a href="../login">로그인</a></button> 
+                        <button id="sign_up_btn"><a href="../login/Sign_Up">회원가입</a></button>
                     <% } %>
                 </div>
             </div>
@@ -48,27 +48,60 @@
                 <div id="comment-div">
                     <table>
                         <tbody>
-                            <% for(let post of posts) { %>
+                            <% 
+                                for(var i=length-((page*page_num)-page_num); i>length-(page*page_num); i--) { 
+                                    var item = "";
+                                    if(i<0){
+                                        break;
+                                    }
+                                    else{
+                                        item = posts[i];
+                            %>
                             <tr class="main-table">
-                                <td class="align"><%= post.id %></td>
+                                <td class="align"><%= item.id %></td>
                                 <% if(session){ %> 
-                                    <td colspan="8" class="title-td"><a href="./board/<%= post.id %>"><%= post.title %></a></td>
+                                    <td colspan="8" class="title-td"><a href="./board/user/<%= item.id %>"><%= item.title %></a></td>
                                 <% } else{ %>
-                                    <td colspan="8" class="title-td"><a href="./login"><%= post.title %></a></td>
+                                    <td colspan="8" class="title-td"><a href="./login"><%= item.title %></a></td>
                                 <% } %>
-                                <td colspan="2" class="align"><%= post.writer %></td>
-                                <td colspan="2" class="align"><%= post.createdAt.toLocaleString() %></td>
-                                <td class="align"><%= post.views %></td>
+                                <td colspan="2" class="align"><%= item.writer %></td>
+                                <td colspan="2" class="align"><%= item.createdAt %></td>
+                                <td class="align"><%= item.views %></td>
                             </tr>
-                            <% } %>
+                            <% } 
+                            }%>
+                            <tr class="main-table" id="page">
+                                <td class="align" id="page_td" colspan="14">
+                                    <%
+                                        if(page!=='1'){
+                                    %> 
+                                        <a href="/board/<%= Number(page)-1 %>"><</a>
+                                    <%
+                                        }
+                                        else{
+                                    %>
+                                        <a href="/board/<%= Number(page)-1 %>"></a>    
+                                    <%       
+                                        }
+                                    %>
+                                    <%
+                                        for(var j=0; j<posts.length/10; j++){
+                                    %>        
+                                        [ <a href="/board/<%= j+1 %>"><%= j+1 %></a> ]
+                                    <%
+                                        }
+                                    %>
+                                    <a href="/board/<%= Number(page)+1 %>">></a>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
                 <div>
                     <% if(session){ %> 
-                        <button id="write-btn"><a href="./board/write">글쓰기</a></button>
+                        <button id="write-btn"><a href="./write">글쓰기</a></button>
                     <% } else{ %>
-                        <button id="write-btn"><a href="./login">글쓰기</a></button>
+                        <button id="write-btn"><a href="../login">글쓰기</a></button>
                     <% } %>
                 </div>
             </div>

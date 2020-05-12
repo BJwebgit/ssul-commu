@@ -99,6 +99,7 @@ tbody {
 }
 .align{
     text-align: center;
+    border: none;
 }
 .title-td{
     padding: 0 30px;
@@ -122,4 +123,7 @@ tbody {
 }
 #comm{
     margin: 20px 0;
+}
+#page_td{
+    border: none;
 }
