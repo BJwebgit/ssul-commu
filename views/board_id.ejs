@@ -5,9 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ssul</title>
     <link rel="stylesheet" href="/stylesheets/write.css">
+    <script type="text/javascript" src="/javascripts/board_id.js"></script>
 </head>
 <body>
-    <% include header %>
+    <header>
+        <div class="center-align" id="header-div">
+            <div class="inline-block" id="header-left"><a href="/"></a></div>
+            <div class="inline-block" id="header-center"><a href="/">Ssul</a></div>
+            <div class="inline-block" id="header-right">
+                <div class="inline-block">
+                    <% if(session){ %> 
+                        <button id="mypage"><a href="#">마이페이지</a></button> 
+                        <button id="logout"><a href="/logout">로그아웃</a></button>
+                    <% } else{ %>
+                        <button id="login_btn"><a href="./login">로그인</a></button> 
+                        <button id="sign_up_btn"><a href="./login/Sign_Up">회원가입</a></button>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </header>
     <% include nav %>
     <section>
         <div class="center-align">
@@ -33,18 +50,19 @@
                         </tbody>
                     </table>
                     <div id="up-del-btn">
+                        <button class="inline-block" id="reply_btn">댓글</button>
                         <button class="inline-block"><a href="/board/update/<%=post.id%>">수정하기</a></button>
                         <form action="/board/<%=post.id%>?_method=DELETE" method="post" class="inline-block">
                             <td><input type="submit" value="삭제하기"></input></td>
                         </form>
                     </div>
-                    <div>
-                        <form action="/board/<%=post.id%>" method="post">
+                    <div id="reply_form">
+                        <form action="/board/<%=post.id%>" method="post" id="reply_form">
                             <table>
                                 <tbody>
                                     <tr>
-                                        <td class="text-align"><span>작성자</span></td>
-                                        <td colspan="8"><input type="text" name="inputWriter" placeholder="작성자 이름" class="w100"></td>
+                                        <td class="text-align"><span>ID</span></td>
+                                        <td colspan="8"><input type="text" name="inputWriter" value="<%= session[0] %>" class="w100" readonly></td>
                                     </tr> 
                                     <tr>
                                         <td class="text-align"><span>내용</span></td>
@@ -71,19 +89,5 @@
             </div>
         </div>
     </section>
-    <script>
-        var sing_up = document.getElementById('sing_up_btn');
-        var login = document.getElementById('login_btn');
-        var write_btn = document.getElementById('write-btn');
-        sing_up.addEventListener('click', function(event){
-            location.href='../login/Sign_Up';
-        });
-        login.addEventListener('click', function(event){
-            location.href='../login';
-        });
-        write_btn.addEventListener('click', function(event){
-            location.href='./board/write';
-        })
-    </script>
 </body>
 </html>

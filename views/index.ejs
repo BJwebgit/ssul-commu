@@ -14,11 +14,11 @@
             <div class="inline-block" id="header-right">
                 <div class="inline-block">
                     <% if(session.email){ %> 
-                        <button id="login_btn">마이페이지</button> 
-                        <button id="sign_up_btn">로그아웃</button>
+                        <button id="mypage"><a href="#">마이페이지</a></button> 
+                        <button id="logout"><a href="/logout">로그아웃</a></button>
                     <% } else{ %>
-                        <button id="login_btn">로그인</button> 
-                        <button id="sign_up_btn">회원가입</button>
+                        <button id="login_btn"><a href="./login">로그인</a></button> 
+                        <button id="sign_up_btn"><a href="./login/Sign_Up">회원가입</a></button>
                     <% } %>
                 </div>
             </div>
@@ -46,7 +46,7 @@
                   <div class="center-comm-bottom">
                       <ul>
                         <% for(let post of posts) { %>
-                            <li><a href="#">▷ <%= post.content %></a></li>
+                            <li><a href="#">▷ <%= post.title %></a></li>
                         <% } %>
                       </ul>
                   </div>
@@ -62,11 +62,9 @@
                   </div>
                   <div class="center-comm-bottom">
                       <ul>
-                          <li><a href="#">▷ 새로운 게시글입니다.</a></li>
-                          <li><a href="#">▷ [답글] 새로운 게시글입니다.</a></li>
-                          <li><a href="#">▷ [답글] [답글] 새로운 게시글입니다2</a></li>
-                          <li><a href="#">▷ [답글] [답글] 새로운 게시글입니다2</a></li>
-                          <li><a href="#">▷ 새로운 게시글</a></li>
+                        <% for(let post of posts) { %>
+                            <li><a href="#">▷ <%= post.title %></a></li>
+                        <% } %>
                       </ul>
                   </div>
               </div>
@@ -74,15 +72,5 @@
       </div>
     </section>
     <% include footer %>
-    <script>
-        var sign_up = document.getElementById('sign_up_btn');
-        var login = document.getElementById('login_btn');
-        sign_up.addEventListener('click', function(event){
-            location.href='./login/Sign_Up';
-        });
-        login.addEventListener('click', function(event){
-            location.href='./login';
-        });
-    </script>
   </body>
 </html>

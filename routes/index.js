@@ -15,10 +15,23 @@ router.get('/', function(req, res, next) {
   });
 });
 
+router.get('/logout', function(req, res, next) {
+  models.post.findAll({
+    limit: 5,
+    order: [['createdAt', 'DESC']]
+  }).then( result => {
+    req.session.destroy(function(err){
+      if(err){
+        throw err
+      }
+      res.redirect("/");
+    });
+  });
+});
+
 router.get('/board', function(req, res, next) {
   if(req.session.email === undefined){
     models.post.findAll().then( result => {
-      console.log(req.session);
       res.render("board", {
         posts: result, session:false
       });
@@ -26,7 +39,6 @@ router.get('/board', function(req, res, next) {
   }
   else{
     models.post.findAll().then( result => {
-      console.log(req.session);
       res.render("board", {
         posts: result, session:req.session
       });
@@ -60,7 +72,8 @@ router.post('/board/write', function(req, res, next) {
 });
 
 router.get('/board/:id', function (req, res, next) {
-  console.log(req.session.email);
+  var req_email = req.session.email;
+  var req_id = req_email.split("@");
   let postID = req.params.id;
   models.post.findOne({
     where: { id: postID }
@@ -69,7 +82,7 @@ router.get('/board/:id', function (req, res, next) {
         where:{postId:postID}
       }).then(result2 =>{ 
       res.render("board_id", {
-        post: result,replies:result2
+        post: result, replies:result2, session:req_id
       });
     })
   })

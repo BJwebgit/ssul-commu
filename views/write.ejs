@@ -7,7 +7,18 @@
     <link rel="stylesheet" href="/stylesheets/write.css">
 </head>
 <body>
-    <% include header %>
+    <header>
+        <div class="center-align" id="header-div">
+            <div class="inline-block" id="header-left"><a href="/"></a></div>
+            <div class="inline-block" id="header-center"><a href="/">Ssul</a></div>
+            <div class="inline-block" id="header-right">
+                <div class="inline-block">
+                    <button id="mypage"><a href="#">마이페이지</a></button> 
+                    <button id="logout"><a href="/logout">로그아웃</a></button>
+                </div>
+            </div>
+        </div>
+    </header>
     <% include nav %>
     <section>
         <div class="center-align">
@@ -43,15 +54,5 @@
             </div>
         </div>
     </section>
-    <script>
-        var sign_up = document.getElementById('sign_up_btn');
-        var login = document.getElementById('login_btn');
-        sign_up.addEventListener('click', function(event){
-            location.href='../login/Sign_Up';
-        });
-        login.addEventListener('click', function(event){
-            location.href='../login';
-        });
-    </script>
 </body>
 </html>

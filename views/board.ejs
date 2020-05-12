@@ -15,11 +15,11 @@
             <div class="inline-block" id="header-right">
                 <div class="inline-block">
                     <% if(session.email){ %> 
-                        <button id="login_btn">마이페이지</button> 
-                        <button id="sign_up_btn">로그아웃</button>
+                        <button id="mypage"><a href="#">마이페이지</a></button> 
+                        <button id="logout"><a href="/logout">로그아웃</a></button>
                     <% } else{ %>
-                        <button id="login_btn">로그인</button> 
-                        <button id="sign_up_btn">회원가입</button>
+                        <button id="login_btn"><a href="./login">로그인</a></button> 
+                        <button id="sign_up_btn"><a href="./login/Sign_Up">회원가입</a></button>
                     <% } %>
                 </div>
             </div>
@@ -52,9 +52,9 @@
                             <tr class="main-table">
                                 <td class="align"><%= post.id %></td>
                                 <% if(session){ %> 
-                                    <td colspan="8" class="title-td"><a href="./board/<%= post.id %>"><%= post.content %></a></td>
+                                    <td colspan="8" class="title-td"><a href="./board/<%= post.id %>"><%= post.title %></a></td>
                                 <% } else{ %>
-                                    <td colspan="8" class="title-td"><a href="./login"><%= post.content %></a></td>
+                                    <td colspan="8" class="title-td"><a href="./login"><%= post.title %></a></td>
                                 <% } %>
                                 <td colspan="2" class="align"><%= post.writer %></td>
                                 <td colspan="2" class="align"><%= post.createdAt.toLocaleString() %></td>
@@ -74,15 +74,5 @@
             </div>
         </div>
     </section>
-    <script>
-        var sign_up = document.getElementById('sign_up_btn');
-        var login = document.getElementById('login_btn');
-        sign_up.addEventListener('click', function(event){
-            location.href='./login/Sign_Up';
-        });
-        login.addEventListener('click', function(event){
-            location.href='../login';
-        });
-    </script>
 </body>
 </html>
