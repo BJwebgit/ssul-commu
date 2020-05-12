@@ -113,6 +113,17 @@ td > input,textarea {
 .inline-block{
     display: inline-block;
 }
-#up-del-btn{
+.up-del-btn{
     float:right;
+}
+.border_all{
+    border: 1px solid #E6E6E6;
+    font-size: 15px;
+}
+#delete_btn{
+    float:right;
+    width: 100%;
+}
+#reply_content{
+    padding: 0 15px;
 }

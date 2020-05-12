@@ -49,7 +49,7 @@
                             </tr> 
                         </tbody>
                     </table>
-                    <div id="up-del-btn">
+                    <div class="up-del-btn">
                         <% if(post.writer === nick){ %> 
                             <button class="inline-block" id="reply_btn">댓글</button>
                             <button class="inline-block"><a href="/board/update/<%=post.id%>">수정하기</a></button>
@@ -62,8 +62,8 @@
                             <button class="inline-block"><a href="/board">목록</a></button>
                         <% } %>
                     </div>
-                    <div id="reply_form">
-                        <div>
+                    <div>
+                        <div id="reply_form">
                             <form action="/board/user/<%=post.id%>" method="post">
                                 <table>
                                     <tbody>
@@ -85,8 +85,13 @@
                                 <tbody>
                                     <% for(let reply of replies) { %>
                                     <tr>
-                                        <td class="text-align"><span><%= reply.writer %></span></td>
-                                        <td colspan="8"><p class="w100"><%= reply.content %></p></td>
+                                        <td class="text-align border_all"><span><%= reply.writer %></span></td>
+                                        <td colspan="8" class="border_all"><p class="w100" id="reply_content"><%= reply.content %></p></td>
+                                        <% if(reply.writer === nick){ %> 
+                                        <form action="/board/reply/<%=post.id%>?_method=DELETE" method="post" class="inline-block">
+                                            <td><input type="submit" value="삭제하기" style="height: 65px;"></input></td>
+                                        </form>
+                                        <% } else{} %>
                                     </tr>
                                     <% } %>
                                 </tbody>

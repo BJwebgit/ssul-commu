@@ -67,15 +67,24 @@ router.get('/board/:page', function(req, res, next) {
   var page = req.params.page;
   if(req.session.email === undefined){
     models.post.findAll().then( result => {
+      var num = result.length%2;
+      var result_length = 0;
+      if(num === 0){
+        result_length = result.length;
+      }
+      else{
+        result_length = result_length+1;
+      }
+      console.log(result_length);
       res.render("board", {
-        posts: result, session:false, page: page, length: result.length-1, page_num: 10
+        posts: result, session:false, page: page, length: result.length-1, page_num: 1, result_leng: result_length
       });
     });
   }
   else{
     models.post.findAll().then( result => {
       res.render("board", {
-        posts: result, session:req.session, page: page, length: result.length-1, page_num: 10
+        posts: result, session:req.session, page: page, length: result.length-1, page_num: 1, result_leng: result_length
       });
     });
   }
@@ -149,7 +158,7 @@ router.put('/board/update/:id', function(req, res, next) {
   })
   .then( result => {
     console.log("데이터 수정 완료");
-    res.redirect(`/board`);
+    res.redirect(`/board/1`);
   })
   .catch( err => {
     console.log("데이터 수정 실패");
@@ -163,7 +172,21 @@ router.delete('/board/:id', function(req, res, next) {
     where: {id: postID}
   })
   .then( result => {
-    res.redirect("/board")
+    res.redirect("/board/1")
+  })
+  .catch( err => {
+    console.log("데이터 삭제 실패");
+  });
+});
+
+router.delete('/board/reply/:id', function(req, res, next) {
+  let nick = req.session.nickname;
+
+  models.reply.destroy({
+    where: {writer: nick}
+  })
+  .then( result => {
+    res.redirect("/board/1")
   })
   .catch( err => {
     console.log("데이터 삭제 실패");

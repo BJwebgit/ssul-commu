@@ -60,38 +60,44 @@
                             <tr class="main-table">
                                 <td class="align"><%= item.id %></td>
                                 <% if(session){ %> 
-                                    <td colspan="8" class="title-td"><a href="./board/user/<%= item.id %>"><%= item.title %></a></td>
+                                    <td colspan="8" class="title-td"><a href="./user/<%= item.id %>"><%= item.title %></a></td>
                                 <% } else{ %>
-                                    <td colspan="8" class="title-td"><a href="./login"><%= item.title %></a></td>
+                                    <td colspan="8" class="title-td"><a href="../login"><%= item.title %></a></td>
                                 <% } %>
                                 <td colspan="2" class="align"><%= item.writer %></td>
-                                <td colspan="2" class="align"><%= item.createdAt %></td>
+                                <td colspan="2" class="align"><%= item.createdAt.toLocaleString() %></td>
                                 <td class="align"><%= item.views %></td>
                             </tr>
                             <% } 
                             }%>
                             <tr class="main-table" id="page">
                                 <td class="align" id="page_td" colspan="14">
-                                    <%
-                                        if(page!=='1'){
-                                    %> 
-                                        <a href="/board/<%= Number(page)-1 %>"><</a>
-                                    <%
-                                        }
-                                        else{
-                                    %>
-                                        <a href="/board/<%= Number(page)-1 %>"></a>    
-                                    <%       
-                                        }
-                                    %>
-                                    <%
-                                        for(var j=0; j<posts.length/10; j++){
-                                    %>        
-                                        [ <a href="/board/<%= j+1 %>"><%= j+1 %></a> ]
-                                    <%
-                                        }
-                                    %>
-                                    <a href="/board/<%= Number(page)+1 %>">></a>
+                                    <%  if(page!=='1'){
+                                            if(page < 11){ %>
+                                            <button><a href="/board/1"><<</a></button>
+                                    <%  }
+                                        else{%>
+                                            <button><a href="/board/1"><<</a></button>
+                                    <%  } %>
+                                        <button><a href="/board/<%= Number(page)-1 %>"><</a></button>
+                                    <%  }
+                                        else{}
+                                        for(var j=0; j<result_leng; j++){
+                                            if(j < 10){ %>        
+                                            [ <a href="/board/<%= j+1 %>"><%= j+1 %></a> ]
+                                    <%      }
+                                            else if(9 < j < result_leng){ %>
+                                            [ <a href="/board/<%= j+1 %>"><%= j+1 %></a> ]
+                                    <%  }else{}}
+                                        if(Number(page)!==result_leng){ %>
+                                            <button><a href="/board/<%= Number(page)+1 %>">></a></button>
+                                    <%  if(result_leng>100){ %>
+                                            <button><a href="/board/<%= Number(page)+10 %>">>></a></button>     
+                                    <%  }
+                                        else{ %>   
+                                            <button><a href="/board/<%= result_leng %>">>></a></button>
+                                    <%  }}
+                                        else{} %>
                                 </td>
                             </tr>
                         </tbody>
