@@ -82,20 +82,20 @@
                                         <button><a href="/board/<%= Number(page)-1 %>"><</a></button>
                                     <%  }
                                         else{}
-                                        for(var j=0; j<result_leng; j++){
+                                        for(var j=0; j<posts.length; j++){
                                             if(j < 10){ %>        
                                             [ <a href="/board/<%= j+1 %>"><%= j+1 %></a> ]
                                     <%      }
-                                            else if(9 < j < result_leng){ %>
+                                            else if(9 < j < posts.length){ %>
                                             [ <a href="/board/<%= j+1 %>"><%= j+1 %></a> ]
                                     <%  }else{}}
-                                        if(Number(page)!==result_leng){ %>
+                                        if(Number(page)!==posts.length){ %>
                                             <button><a href="/board/<%= Number(page)+1 %>">></a></button>
-                                    <%  if(result_leng>100){ %>
+                                    <%  if(posts.length>100){ %>
                                             <button><a href="/board/<%= Number(page)+10 %>">>></a></button>     
                                     <%  }
                                         else{ %>   
-                                            <button><a href="/board/<%= result_leng %>">>></a></button>
+                                            <button><a href="/board/<%= posts.length %>">>></a></button>
                                     <%  }}
                                         else{} %>
                                 </td>

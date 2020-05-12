@@ -1,6 +1,7 @@
 const express = require('express');
 const models = require('../models');
 const router = express.Router();
+const db = require('../lib/db');
 const methodOverride = require('method-override');
 
 /* GET home page. */
@@ -66,25 +67,18 @@ router.post('/board/write', function(req, res, next) {
 router.get('/board/:page', function(req, res, next) {
   var page = req.params.page;
   if(req.session.email === undefined){
-    models.post.findAll().then( result => {
-      var num = result.length%2;
-      var result_length = 0;
-      if(num === 0){
-        result_length = result.length;
-      }
-      else{
-        result_length = result_length+1;
-      }
-      console.log(result_length);
-      res.render("board", {
-        posts: result, session:false, page: page, length: result.length-1, page_num: 1, result_leng: result_length
+    db.query(`select * from posts`,
+    function(err, result){
+        res.render("board", {
+        posts: result, session:false, page: page, length: result.length-1, page_num: 1
       });
     });
   }
   else{
-    models.post.findAll().then( result => {
+    db.query(`select * from posts`,
+    function(err, result){
       res.render("board", {
-        posts: result, session:req.session, page: page, length: result.length-1, page_num: 1, result_leng: result_length
+        posts: result, session:req.session, page: page, length: result.length-1, page_num: 1
       });
     });
   }
