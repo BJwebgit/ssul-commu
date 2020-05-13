@@ -5,6 +5,14 @@ const db = require('../lib/db');
 const methodOverride = require('method-override');
 const crypto = require('crypto');
 
+function kind_f(kind){
+  return `select * from posts where ${kind} like ? order by createdAt desc limit ?,?`
+}
+
+function kind_f2(kind, kind2){
+  return `select * from posts where ${kind} like ? or ${kind2} like ? order by createdAt desc limit ?,?`
+}
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
   models.post.findAll({
@@ -15,9 +23,20 @@ router.get('/', function(req, res, next) {
       limit: 5,
       order: [['views', 'DESC']]
       }).then( result2 => {
-      res.render("index", {
-        posts: result, vposts: result2, session:req.session
-      });
+      if(req.session.email === undefined){
+        var req_email = req.session.email;
+        res.render("index", {
+          posts: result, vposts: result2, session:req_email
+        });
+      }
+      else{
+        var req_email = req.session.email;
+        var req_id = req_email.split("@");
+        console.log(req_id);
+        res.render("index", {
+          posts: result, vposts: result2, session:req_id
+        });
+      }
     });
   });
 });
@@ -94,10 +113,12 @@ router.post('/board/write', function(req, res, next) {
 
 router.get('/board/:page', function(req, res, next) {
   var page = req.params.page;
+  var kind = req.query.kinds;
   page = parseInt(page, 10);
   var size = 10;
   var begin = (page-1)*size;
-  db.query(`select count(*) cnt from posts`,
+  if(req.query.kinds === undefined){
+    db.query(`select count(*) cnt from posts`,
     function(err, result){
       var cnt = result[0].cnt;
       var totalPage = Math.ceil(cnt / size);
@@ -125,12 +146,79 @@ router.get('/board/:page', function(req, res, next) {
             res.render("board", datas);
           }
           else{
-            datas.session = req.session;
+            var req_email = req.session.email;
+            var req_id = req_email.split("@");
+            datas.session = req_id;
             res.render("board", datas);
           }
-          res.render("board", datas);
       });
-  });
+    });
+  }
+  else{
+      db.query(`select count(*) cnt from posts`,
+      function(err, result){
+      var cnt = result[0].cnt;
+      var totalPage = Math.ceil(cnt / size);
+      var pageSize = 10;
+      var startPage = Math.floor((page-1) / pageSize)*pageSize + 1;
+      var endPage = startPage + (pageSize - 1);
+      if(endPage > totalPage){
+        endPage = totalPage;
+      }
+      var max = cnt - ((page-1)*size);
+      if(kind === 'title+content'){
+        db.query(`${kind_f2('title','content')}`,
+        ["%"+req.query.content+"%", "%"+req.query.content+"%", begin, size],
+        function(err, result){
+          var datas = {
+            post : result,
+            page: page,
+            pageSize: pageSize,
+            startPage: startPage,
+            endPage: endPage,
+            totalPage: totalPage,
+            max: max,
+            session:false
+          };
+          if(req.session.email === undefined){
+            res.render("board", datas);
+          }
+          else{
+            var req_email = req.session.email;
+            var req_id = req_email.split("@");
+            datas.session = req_id;
+            res.render("board", datas);
+          }
+        });
+      }
+      else{
+        db.query(`${kind_f(kind)}`,
+        ["%"+req.query.content+"%", begin, size],
+        function(err, result){
+          console.log(result);
+          var datas = {
+            post : result,
+            page: page,
+            pageSize: pageSize,
+            startPage: startPage,
+            endPage: endPage,
+            totalPage: totalPage,
+            max: max,
+            session:false
+          };
+          if(req.session.email === undefined){
+            res.render("board", datas);
+          }
+          else{
+            var req_email = req.session.email;
+            var req_id = req_email.split("@");
+            datas.session = req_id;
+            res.render("board", datas);
+          }
+        });
+      }
+    });
+  }
 });
 
 router.get('/board/user/:id', function (req, res, next) {
@@ -178,9 +266,18 @@ router.get('/board/update/:id', function(req, res, next) {
     where: {id: postID}
   })
   .then( result => {
-    res.render("update", {
-      post: result, session: req.session
-    });
+    if(req.session.email === undefined){
+      res.render("update", {
+        post: result, session: req.session
+      });
+    }
+    else{
+      var req_email = req.session.email;
+      var req_id = req_email.split("@");
+      res.render("update", {
+        post: result, session: req.session
+      });
+    }
   })
   .catch( err => {
     console.log("데이터 조회 실패");

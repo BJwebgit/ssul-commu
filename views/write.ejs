@@ -13,7 +13,15 @@
             <div class="inline-block" id="header-center"><a href="/">Ssul</a></div>
             <div class="inline-block" id="header-right">
                 <div class="inline-block">
-                    <button id="mypage"><a href="/mypage">마이페이지</a></button> 
+                    <ul class="dropdown">
+                        <button class="dropbtn" id="login_btn"><%=session[0]%>님▼</button>
+                        <li class="dropdown-content">
+                            <ul>
+                                <li><a href="/mypage">회원정보 수정</a></li>
+                                <li><a href="#">회원탈퇴</a></li>
+                            </ul>
+                        </li>
+                    </ul>
                     <button id="logout"><a href="/logout">로그아웃</a></button>
                 </div>
             </div>

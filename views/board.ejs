@@ -14,8 +14,16 @@
             <div class="inline-block" id="header-center"><a href="/">Ssul</a></div>
             <div class="inline-block" id="header-right">
                 <div class="inline-block">
-                    <% if(session.email){ %> 
-                        <button id="mypage"><a href="/mypage">마이페이지</a></button> 
+                    <% if(session){ %>
+                        <ul class="dropdown">
+                            <button class="dropbtn" id="login_btn"><%=session[0]%>님▼</button>
+                            <li class="dropdown-content">
+                                <ul>
+                                    <li><a href="/mypage">회원정보 수정</a></li>
+                                    <li><a href="#">회원탈퇴</a></li>
+                                </ul>
+                            </li>
+                        </ul>
                         <button id="logout"><a href="/logout">로그아웃</a></button>
                     <% } else{ %>
                         <button id="login_btn"><a href="../login">로그인</a></button> 
@@ -67,8 +75,8 @@
                                         [<a href="/board/1">◀◀</a>]
                                         [<a href="/board/<%= page - 1%>">◀</a>]
                                     <% } else { %>
-                                        <span style="color:gray">◀◀</span>
-                                        <span style="color:gray">◀</span>
+                                        [<span style="color:gray">◀◀</span>]
+                                        [<span style="color:gray">◀</span>]
                                     <% } %>
 
                                     <% for(var i=startPage; i<= endPage; i++){ %>
@@ -82,13 +90,25 @@
                                         [<a href="/board/<%= page + 1 %>">▶</a>]
                                         [<a href="/board/<%= totalPage %>">▶▶</a>]
                                     <% } else { %>
-                                        <span style="color:gray">▶</span>
-                                        <span style="color:gray">▶▶</span>
+                                        [<span style="color:gray">▶</span>]
+                                        [<span style="color:gray">▶▶</span>]
                                     <% } %>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
+                </div>
+                <div class="text_center">
+                    <form action="/board/<%=page%>">
+                        <select class="form-text" id="select_form" name="kinds" required>
+                            <option value="title" selected>제목</option>
+                            <option value="content">내용</option>
+                            <option value="title+content">제목+내용</option>
+                            <option value="writer">작성자</option>
+                        </select>
+                        <input type="text" name="content" placeholder="검색어를 입력하세요">
+                        <input type="submit" value="검색">
+                    </form>
                 </div>
                 <div>
                     <% if(session){ %> 
