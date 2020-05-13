@@ -13,8 +13,16 @@
             <div class="inline-block" id="header-center"><a href="/">Ssul</a></div>
             <div class="inline-block" id="header-right">
                 <div class="inline-block">
-                    <% if(session.email){ %> 
-                        <button id="mypage"><a href="#">마이페이지</a></button> 
+                    <% if(session.email){ %>
+                        <div class="dropdown">
+                            <button class="dropbtn" id="login_btn"><a href="/mypage"><%=session.email%>님▼</a></button>
+                            <div class="dropdown-content">
+                                <a href="/mypage">홈</a>
+                                <a href="#">회사소개</a>
+                                <a href="#">제품소개</a>
+                                <a href="#">오시는길</a>
+                            </div>
+                        </div>
                         <button id="logout"><a href="/logout">로그아웃</a></button>
                     <% } else{ %>
                         <button id="login_btn"><a href="./login">로그인</a></button> 
@@ -37,16 +45,16 @@
               <div class="inline-block center-comm" id="center-comm-left">
                   <div class="center-comm-top">
                       <div class="inline-block w-50">
-                          <a href="/board">최근 게시글</a>
+                          <a href="/board/1">최근 게시글</a>
                       </div>
                       <div class="inline-block w-50">
-                          <a href="/board">[더 보기]</a>
+                          <a href="/board/1">[더 보기]</a>
                       </div>
                   </div>
                   <div class="center-comm-bottom">
                       <ul>
                         <% for(let post of posts) { %>
-                            <li><a href="#">▷ <%= post.title %></a></li>
+                            <li><a href="/board/user/<%= post.id %>">▷ <%= post.title %></a></li>
                         <% } %>
                       </ul>
                   </div>
@@ -54,16 +62,16 @@
               <div class="inline-block center-comm">
                   <div class="center-comm-top">
                       <div class="inline-block w-50">
-                          <a href="/board">인기 게시글</a>
+                          <a href="/board/1">인기 게시글</a>
                       </div>
                       <div class="inline-block w-50">
-                          <a href="/board">[더 보기]</a>
+                          <a href="/board/1">[더 보기]</a>
                       </div>
                   </div>
                   <div class="center-comm-bottom">
                       <ul>
-                        <% for(let post of posts) { %>
-                            <li><a href="#">▷ <%= post.title %></a></li>
+                        <% for(let vpost of vposts) { %>
+                            <li><a href="/board/user/<%= vpost.id %>">▷ <%= vpost.title %></a></li>
                         <% } %>
                       </ul>
                   </div>

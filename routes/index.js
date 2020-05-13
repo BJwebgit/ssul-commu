@@ -3,6 +3,7 @@ const models = require('../models');
 const router = express.Router();
 const db = require('../lib/db');
 const methodOverride = require('method-override');
+const crypto = require('crypto');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -17,6 +18,34 @@ router.get('/', function(req, res, next) {
       res.render("index", {
         posts: result, vposts: result2, session:req.session
       });
+    });
+  });
+});
+
+router.get('/mypage', function(req, res, next) {
+  db.query(`select * FROM login where nickname=?`, 
+  [req.session.nickname],
+  function(error, result){
+    if(error) console.log("[mysql] users DB -> user2.js error ");
+    res.render('mypage', {
+      post: result, session: req.session
+    });
+  });
+});
+
+router.post('/mypage', function(req, res, next) {
+  var post = req.body;
+  var inputPassword = post.password;
+  var hashPassword = crypto.createHash("sha512").update(inputPassword).digest("hex");
+  db.query(`update login set password=?, nickname=?, tel=?, area=?, gender=? where email=?`,
+  [hashPassword, post.nickname, post.tel, post.area, post.gender, post.email],
+  function(error, result){
+    if(error) console.log("[mysql] login DB update error! ");
+    req.session.destroy(function(err){
+      if(err){
+        throw err
+      }
+      res.redirect("/login");
     });
   });
 });
@@ -39,7 +68,6 @@ router.get('/board/write', function(req, res, next) {
   var req_email = req.session.email;
   var req_id = req_email.split("@");
   var req_nickname = req.session.nickname;
-  console.log(req.session);
   res.render('write', {
     session: req_id, nick: req_nickname
   });
@@ -69,66 +97,40 @@ router.get('/board/:page', function(req, res, next) {
   page = parseInt(page, 10);
   var size = 10;
   var begin = (page-1)*size;
-  if(req.session.email === undefined){
-    db.query(`select count(*) cnt from posts`,
-      function(err, result){
-        var cnt = result[0].cnt;
-        var totalPage = Math.ceil(cnt / size);
-        var pageSize = 10;
-        var startPage = Math.floor((page-1) / pageSize)*pageSize + 1;
-        var endPage = startPage + (pageSize - 1);
-        console.log(totalPage+" "+startPage+" "+endPage);
-        if(endPage > totalPage){
-          endPage = totalPage;
-        }
-        var max = cnt - ((page-1)*size);
-        db.query(`select * from posts order by createdAt desc limit ?,?`,
-          [begin, size],
-          function(err, result){
-            var datas = {
-              post : result,
-              page: page,
-              pageSize: pageSize,
-              startPage: startPage,
-              endPage: endPage,
-              totalPage: totalPage,
-              max: max,
-              session:false
-            };
+  db.query(`select count(*) cnt from posts`,
+    function(err, result){
+      var cnt = result[0].cnt;
+      var totalPage = Math.ceil(cnt / size);
+      var pageSize = 10;
+      var startPage = Math.floor((page-1) / pageSize)*pageSize + 1;
+      var endPage = startPage + (pageSize - 1);
+      if(endPage > totalPage){
+        endPage = totalPage;
+      }
+      var max = cnt - ((page-1)*size);
+      db.query(`select * from posts order by createdAt desc limit ?,?`,
+        [begin, size],
+        function(err, result){
+          var datas = {
+            post : result,
+            page: page,
+            pageSize: pageSize,
+            startPage: startPage,
+            endPage: endPage,
+            totalPage: totalPage,
+            max: max,
+            session:false
+          };
+          if(req.session.email === undefined){
             res.render("board", datas);
-        });
-    });
-  }
-  else{
-    db.query(`select count(*) cnt from posts`,
-      function(err, result){
-        var cnt = result[0].cnt;
-        var totalPage = Math.ceil(cnt / size);
-        var pageSize = 10;
-        var startPage = Math.floor((page-1) / pageSize)*pageSize + 1;
-        var endPage = startPage + (pageSize - 1);
-        console.log(totalPage+" "+startPage+" "+endPage);
-        if(endPage > totalPage){
-          endPage = totalPage;
-        }
-        var max = cnt - ((page-1)*size);
-        db.query(`select * from posts order by createdAt desc limit ?,?`,
-          [begin, size],
-          function(err, result){
-            var datas = {
-              post : result,
-              page: page,
-              pageSize: pageSize,
-              startPage: startPage,
-              endPage: endPage,
-              totalPage: totalPage,
-              max: max,
-              session:req.session
-            };
+          }
+          else{
+            datas.session = req.session;
             res.render("board", datas);
-        });
-    });
-  }
+          }
+          res.render("board", datas);
+      });
+  });
 });
 
 router.get('/board/user/:id', function (req, res, next) {
@@ -139,11 +141,9 @@ router.get('/board/user/:id', function (req, res, next) {
   models.post.findOne({
     where: { id: postID }
   }).then(result => {
-    console.log("findOne");
     models.post.update({views: result.views+1},{
       where: { id: postID }
     }).then(result3 => { 
-      console.log("update");
       models.reply.findAll({
         where:{postId:postID}
       }).then(result2 =>{ 

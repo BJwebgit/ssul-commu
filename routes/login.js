@@ -19,7 +19,6 @@ router.post('/', function(req, res, next) {
       if(err){
           throw err;
       }
-      console.log(result[0]);
       if(result[0] === undefined){
         res.redirect("/login");
       }
@@ -43,7 +42,6 @@ router.post('/', function(req, res, next) {
 router.post('/check_login', function(req, res, next) {
   var check = 0;
   let form_id = req.body.id;
-  console.log("form_id : "+form_id);
   db.query(`select email FROM login`, function(error, db_email){
     if(error) console.log("[mysql] users DB -> user2.js error ");
     for(var i = 0; i<db_email.length; i++){
@@ -62,7 +60,6 @@ router.post('/check_login', function(req, res, next) {
 });
 
 router.get('/Sign_Up', function(req, res, next) {
-  console.log(req.session.email);
   models.post.findAll().then( result => {
     res.render("Sign_Up", {
       posts: result
@@ -73,7 +70,6 @@ router.get('/Sign_Up', function(req, res, next) {
 router.post('/Sign_Up/sign_up', function(req, res, next) {
   var post = req.body;
   var inputPassword = post.password;
-  console.log("inputPassword "+ inputPassword);
   var hashPassword = crypto.createHash("sha512").update(inputPassword).digest("hex");
   db.query(`insert into login (email, password, nickname, tel, area, gender) values(?, ?, ?, ?, ?, ?)`,
     [post.email, hashPassword, post.nickname, post.tel, post.area, post.gender],
