@@ -48,56 +48,43 @@
                 <div id="comment-div">
                     <table>
                         <tbody>
-                            <% 
-                                for(var i=length-((page*page_num)-page_num); i>length-(page*page_num); i--) { 
-                                    var item = "";
-                                    if(i<0){
-                                        break;
-                                    }
-                                    else{
-                                        item = posts[i];
-                            %>
+                            <% for(var i = 0; i<post.length; i++) { %>
                             <tr class="main-table">
-                                <td class="align"><%= item.id %></td>
+                                <td class="align"><%= post[i].id %></td>
                                 <% if(session){ %> 
-                                    <td colspan="8" class="title-td"><a href="./user/<%= item.id %>"><%= item.title %></a></td>
+                                    <td colspan="8" class="title-td"><a href="./user/<%= post[i].id %>"><%= post[i].title %></a></td>
                                 <% } else{ %>
-                                    <td colspan="8" class="title-td"><a href="../login"><%= item.title %></a></td>
+                                    <td colspan="8" class="title-td"><a href="../login"><%= post[i].title %></a></td>
                                 <% } %>
-                                <td colspan="2" class="align"><%= item.writer %></td>
-                                <td colspan="2" class="align"><%= item.createdAt.toLocaleString() %></td>
-                                <td class="align"><%= item.views %></td>
+                                <td colspan="2" class="align"><%= post[i].writer %></td>
+                                <td colspan="2" class="align"><%= post[i].createdAt.toLocaleString() %></td>
+                                <td class="align"><%= post[i].views %></td>
                             </tr>
-                            <% } 
-                            }%>
+                            <% } %>
                             <tr class="main-table" id="page">
                                 <td class="align" id="page_td" colspan="14">
-                                    <%  if(page!=='1'){
-                                            if(page < 11){ %>
-                                            <button><a href="/board/1"><<</a></button>
-                                    <%  }
-                                        else{%>
-                                            <button><a href="/board/1"><<</a></button>
-                                    <%  } %>
-                                        <button><a href="/board/<%= Number(page)-1 %>"><</a></button>
-                                    <%  }
-                                        else{}
-                                        for(var j=0; j<posts.length; j++){
-                                            if(j < 10){ %>        
-                                            [ <a href="/board/<%= j+1 %>"><%= j+1 %></a> ]
-                                    <%      }
-                                            else if(9 < j < posts.length){ %>
-                                            [ <a href="/board/<%= j+1 %>"><%= j+1 %></a> ]
-                                    <%  }else{}}
-                                        if(Number(page)!==posts.length){ %>
-                                            <button><a href="/board/<%= Number(page)+1 %>">></a></button>
-                                    <%  if(posts.length>100){ %>
-                                            <button><a href="/board/<%= Number(page)+10 %>">>></a></button>     
-                                    <%  }
-                                        else{ %>   
-                                            <button><a href="/board/<%= posts.length %>">>></a></button>
-                                    <%  }}
-                                        else{} %>
+                                    <% if(page > 1){ %>
+                                        [<a href="/board/1">◀◀</a>]
+                                        [<a href="/board/<%= page - 1%>">◀</a>]
+                                    <% } else { %>
+                                        <span style="color:gray">◀◀</span>
+                                        <span style="color:gray">◀</span>
+                                    <% } %>
+
+                                    <% for(var i=startPage; i<= endPage; i++){ %>
+                                    <% if(i==page){ %>
+                                        [<span style="font-weight: bold;"><%=i%></span>]
+                                    <% } else { %>
+                                        [ <a href="/board/<%=i%>"><%=i%></a> ]
+                                    <% }}  %>    
+                                    
+                                    <% if(page < totalPage){ %>
+                                        [<a href="/board/<%= page + 1 %>">▶</a>]
+                                        [<a href="/board/<%= totalPage %>">▶▶</a>]
+                                    <% } else { %>
+                                        <span style="color:gray">▶</span>
+                                        <span style="color:gray">▶▶</span>
+                                    <% } %>
                                 </td>
                             </tr>
                         </tbody>

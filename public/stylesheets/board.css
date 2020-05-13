@@ -16,6 +16,7 @@ body{
     vertical-align: middle;
 }
 a{
+    text-align: center;
     text-decoration: none;
     color:black;
 }
@@ -126,4 +127,7 @@ tbody {
 }
 #page_td{
     border: none;
+}
+#page_td > a{
+    color: #3232FF;
 }
