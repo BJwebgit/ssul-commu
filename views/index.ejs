@@ -5,9 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ssul</title>
     <link rel="stylesheet" href="/stylesheets/style.css">
-  </head>
-  <body>
-    <header>
+    <link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@600&display=swap" rel="stylesheet">    <header>
         <div class="center-align" id="header-div">
             <div class="inline-block" id="header-left"><a href="/"></a></div>
             <div class="inline-block" id="header-center"><a href="/">Ssul</a></div>
@@ -19,7 +17,7 @@
                             <li class="dropdown-content">
                                 <ul>
                                     <li><a href="/mypage">회원정보 수정</a></li>
-                                    <li><a href="#">회원탈퇴</a></li>
+                                    <li><a href="/secession">회원탈퇴</a></li>
                                 </ul>
                             </li>
                         </ul>
@@ -52,7 +50,11 @@
                   <div class="center-comm-bottom">
                       <ul>
                         <% for(let post of posts) { %>
-                            <li><a href="/board/user/<%= post.id %>">▷ <%= post.title %></a></li>
+                            <% if(session) { %>
+                                <li><a href="/board/user/<%= post.id %>">▷ <%= post.title %></a></li>
+                            <% }else{ %>
+                                <li><a href="/login">▷ <%= post.title %></a></li>
+                            <% } %>
                         <% } %>
                       </ul>
                   </div>
@@ -69,7 +71,11 @@
                   <div class="center-comm-bottom">
                       <ul>
                         <% for(let vpost of vposts) { %>
-                            <li><a href="/board/user/<%= vpost.id %>">▷ <%= vpost.title %></a></li>
+                            <% if(session) { %>
+                                <li><a href="/board/user/<%= vpost.id %>">▷ <%= vpost.title %></a></li>
+                            <% }else{ %>
+                                <li><a href="/login">▷ <%= vpost.title %></a></li>
+                            <% } %>
                         <% } %>
                       </ul>
                   </div>

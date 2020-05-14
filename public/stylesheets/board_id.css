@@ -6,7 +6,7 @@ body{
     padding: 0;
     font-family: Dotum,'돋움',Helvetica,"Apple SD Gothic Neo",sans-serif;
 }
-ul, li{
+ul,li{
     margin: 0 5px;
     padding: 0;
     list-style: none;
@@ -58,54 +58,90 @@ a{
     line-height: 60px;
     vertical-align: middle;
 }
-/* section */
-#login-p {
-    font-size: 50px;
-    padding: 0;
-    margin: 20px 0 40px;
+/*section*/
+#inner-div{
+    margin: 40px auto;
+    width: 1000px;
 }
-#sign-main{
-    margin: 50px 400px;
-    padding: 15px 20px;
+#main-top{
     text-align: center;
-    border: 1px solid #E6E6E6;
+    margin: 40px;
 }
-.form-text{
-    width: 458px;
-    font-size: 15px;
-    padding: 10px 10px;
-    margin-bottom: 40px;
+#main-top > p{
+    margin: 0;
+    padding: 0;
+    font-size: 35px;
+    font-weight: bold;
+}
+table {
+    width: 100%;
+    word-break: break-all;
+    word-wrap: break-word;
+    word-break: break-word;
+    table-layout: fixed;
+    border-collapse: separate;
+    border-spacing: 0 20px;
+}
+tbody {
+    display: table-row-group;
+    vertical-align: middle;
+    border-color: inherit;
+}
+.text-align{
+    text-align: center;
+}
+tr{
+    margin-bottom: 20px;
+}
+td{
+    font-size: 20px;
+}
+td > input,textarea {
+    font-size: 17px;
+    padding: 5px 10px;
+}
+.w100{
+    width: 100%;
     padding: 3px 10px;
     border-radius: 5px;
-    border: 1px solid #BDBDBD;
-    height: 45px;
+    border: 1px solid #E6E6E6;
 }
-#form-button{
-    margin-top: 20px;
-    width: 458px;
-    height: 60px;
-    font-size: 18px;
-    color: white;
-    padding: 10px 0;
-    background: #5882FA;
-    border: none;
+#submit-btn{
+    float: right;
 }
-/* footer */
-#footer-div{
-    height: 127px;
-    padding: 20px;
-    margin-bottom: 50px;
-    text-align: center;
-    background-color: #E6E6E6;
+.border-p {
+    border: 1px solid #E6E6E6;
 }
-#comm{
-    margin: 20px 0;
+.inline-block{
+    display: inline-block;
+}
+.up-del-btn{
+    float:right;
+}
+.border_all{
+    border: 1px solid #E6E6E6;
+    font-size: 15px;
+}
+#delete_btn{
+    float:right;
+    width: 100%;
+}
+#reply_content{
+    padding: 0 15px;
 }
 
-/*secession*/
 #logout{
     padding: 3px 5px;
 }
+
+.dropbtn {
+background-color: #E6E6E6;
+padding: 4px 30px;
+color: black;
+font-size: 16px;
+border: none;
+}
+  
 .dropbtn {
     background-color: #E6E6E6;
     padding: 4px 30px;

@@ -102,6 +102,9 @@ td > input,textarea {
 }
 .w100{
     width: 100%;
+    padding: 3px 10px;
+    border-radius: 5px;
+    border: 1px solid #E6E6E6;
 }
 #submit-btn{
     float: right;
@@ -129,21 +132,36 @@ td > input,textarea {
 
 #logout{
     padding: 3px 5px;
-  }
-  .dropbtn {
+}
+
+.title_font{
+    font-family: 'Do Hyeon', sans-serif;
+}
+
+
+
+.dropbtn {
+background-color: #E6E6E6;
+padding: 4px 30px;
+color: black;
+font-size: 16px;
+border: none;
+}
+  
+.dropbtn {
     background-color: #E6E6E6;
-    padding: 4px 15px;
+    padding: 4px 30px;
     color: black;
     font-size: 16px;
     border: none;
-  }
-  
-  .dropdown {
+}
+
+.dropdown {
     position: relative;
     display: inline-block;
-  }
-  
-  .dropdown-content {
+}
+
+.dropdown-content {
     top: 31px;
     width: 100%;
     display: none;
@@ -152,13 +170,13 @@ td > input,textarea {
     margin: 0;
     background-color: #f1f1f1;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  }
-  
-  .dropdown-content > ul li{
-    display: block;
-  }
-  
-  .dropdown-content a {
+}
+
+.dropdown-content > ul li{
+    display: block; 
+}
+
+.dropdown-content a {
     font-size: 13px;
     height: 30px;
     color: black;
@@ -166,10 +184,7 @@ td > input,textarea {
     text-align: center;
     text-decoration: none;
     display: block;
-  }
-  
-  .dropdown-content a:hover {background-color: #ddd;}
-  
-  .dropdown:hover .dropdown-content {display: block;}
-  
-  .dropdown:hover .dropbtn {background-color: #424242; color:white}
+}  
+.dropdown:hover .dropdown-content {display: block;}
+
+.dropdown:hover .dropbtn {background-color: #424242; color:white}

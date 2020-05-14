@@ -1,6 +1,10 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   var reply = sequelize.define('reply', {
+    re_email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     postId: {
       type: DataTypes.INTEGER,
       allowNull: false,

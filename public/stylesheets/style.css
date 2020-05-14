@@ -4,7 +4,7 @@
 body{
   margin: 0;
   padding: 0;
-  font-family: Dotum,'돋움',Helvetica,"Apple SD Gothic Neo",sans-serif;
+  font-family: 'Gothic A1', sans-serif, Dotum,'돋움',Helvetica,"Apple SD Gothic Neo",sans-serif;
 }
 ul,li{
   margin: 0 5px;
@@ -142,7 +142,7 @@ a{
 }
 .dropbtn {
   background-color: #E6E6E6;
-  padding: 4px 15px;
+  padding: 4px 30px;
   color: black;
   font-size: 16px;
   border: none;
@@ -177,8 +177,6 @@ a{
   text-decoration: none;
   display: block;
 }
-
-.dropdown-content a:hover {background-color: #ddd;}
 
 .dropdown:hover .dropdown-content {display: block;}
 

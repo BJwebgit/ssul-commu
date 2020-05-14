@@ -2,6 +2,7 @@ window.onload = function(){
     var count = 1;
     var reply_btn = document.getElementById('reply_btn');
     var reply_form = document.getElementById('reply_form');
+    var reply_null_btn = document.getElementById('reply_null_btn');
     reply_form.style.display = "none";
     reply_btn.addEventListener('click', function(event){
         reply_form.style.display = "block";
@@ -13,5 +14,8 @@ window.onload = function(){
             reply_form.style.display = "none";
             count = 1;
         }
+    });
+    reply_null_btn.addEventListener('click', function(event){
+        location.href='.../login';
     });
 }

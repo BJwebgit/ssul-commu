@@ -8,6 +8,10 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      re_email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
       postId: {
         type: Sequelize.INTEGER,
         allowNull: false,

@@ -20,7 +20,7 @@
                             <li class="dropdown-content">
                                 <ul>
                                     <li><a href="/mypage">회원정보 수정</a></li>
-                                    <li><a href="#">회원탈퇴</a></li>
+                                    <li><a href="/secession">회원탈퇴</a></li>
                                 </ul>
                             </li>
                         </ul>
@@ -59,11 +59,7 @@
                             <% for(var i = 0; i<post.length; i++) { %>
                             <tr class="main-table">
                                 <td class="align"><%= post[i].id %></td>
-                                <% if(session){ %> 
-                                    <td colspan="8" class="title-td"><a href="./user/<%= post[i].id %>"><%= post[i].title %></a></td>
-                                <% } else{ %>
-                                    <td colspan="8" class="title-td"><a href="../login"><%= post[i].title %></a></td>
-                                <% } %>
+                                <td colspan="8" class="title-td"><a href="./user/<%= post[i].id %>"><%= post[i].title %></a></td>
                                 <td colspan="2" class="align"><%= post[i].writer %></td>
                                 <td colspan="2" class="align"><%= post[i].createdAt.toLocaleString() %></td>
                                 <td class="align"><%= post[i].views %></td>
