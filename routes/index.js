@@ -114,6 +114,7 @@ router.post('/board/write', function(req, res, next) {
 router.get('/board/:page', function(req, res, next) {
   var page = req.params.page;
   var kind = req.query.kinds;
+  console.log(page);
   page = parseInt(page, 10);
   var size = 10;
   var begin = (page-1)*size;
@@ -140,7 +141,8 @@ router.get('/board/:page', function(req, res, next) {
             endPage: endPage,
             totalPage: totalPage,
             max: max,
-            session:false
+            session:false,
+            kind: false
           };
           if(req.session.email === undefined){
             res.render("board", datas);
@@ -155,67 +157,75 @@ router.get('/board/:page', function(req, res, next) {
     });
   }
   else{
-      db.query(`select count(*) cnt from posts`,
+    var diff = '';
+    if(kind === 'titlecontent'){
+      diff = `select count(*) cnt from posts where title like '%${req.query.content}%' or content like '%${req.query.content}%'` 
+    }
+    else{
+      diff = `select count(*) cnt from posts where ${kind} like '%${req.query.content}%'`
+    }
+    db.query(`${diff}`,
+    function(err, result){
+    var cnt = result[0].cnt;
+    var totalPage = Math.ceil(cnt / size);
+    var pageSize = 10;
+    var startPage = Math.floor((page-1) / pageSize)*pageSize + 1;
+    var endPage = startPage + (pageSize - 1);
+    if(endPage > totalPage){
+      endPage = totalPage;
+    }
+    var max = cnt - ((page-1)*size);
+    if(kind === 'titlecontent'){
+      db.query(`${kind_f2('title','content')}`,
+      ["%"+req.query.content+"%", "%"+req.query.content+"%", begin, size],
       function(err, result){
-      var cnt = result[0].cnt;
-      var totalPage = Math.ceil(cnt / size);
-      var pageSize = 10;
-      var startPage = Math.floor((page-1) / pageSize)*pageSize + 1;
-      var endPage = startPage + (pageSize - 1);
-      if(endPage > totalPage){
-        endPage = totalPage;
-      }
-      var max = cnt - ((page-1)*size);
-      if(kind === 'title+content'){
-        db.query(`${kind_f2('title','content')}`,
-        ["%"+req.query.content+"%", "%"+req.query.content+"%", begin, size],
-        function(err, result){
-          var datas = {
-            post : result,
-            page: page,
-            pageSize: pageSize,
-            startPage: startPage,
-            endPage: endPage,
-            totalPage: totalPage,
-            max: max,
-            session:false
-          };
-          if(req.session.email === undefined){
-            res.render("board", datas);
-          }
-          else{
-            var req_email = req.session.email;
-            var req_id = req_email.split("@");
-            datas.session = req_id;
-            res.render("board", datas);
-          }
-        });
-      }
-      else{
-        db.query(`${kind_f(kind)}`,
-        ["%"+req.query.content+"%", begin, size],
-        function(err, result){
-          console.log(result);
-          var datas = {
-            post : result,
-            page: page,
-            pageSize: pageSize,
-            startPage: startPage,
-            endPage: endPage,
-            totalPage: totalPage,
-            max: max,
-            session:false
-          };
-          if(req.session.email === undefined){
-            res.render("board", datas);
-          }
-          else{
-            var req_email = req.session.email;
-            var req_id = req_email.split("@");
-            datas.session = req_id;
-            res.render("board", datas);
-          }
-        });
+        var datas = {
+          post : result,
+          page: page,
+          pageSize: pageSize,
+          startPage: startPage,
+          endPage: endPage,
+          totalPage: totalPage,
+          max: max,
+          session:false,
+          kind: req.query
+        };
+        if(req.session.email === undefined){
+          res.render("board", datas);
+        }
+        else{
+          var req_email = req.session.email;
+          var req_id = req_email.split("@");
+          datas.session = req_id;
+          res.render("board", datas);
+        }
+      });
+    }
+    else{
+      db.query(`${kind_f(kind)}`,
+      ["%"+req.query.content+"%", begin, size],
+      function(err, result){
+        var datas = {
+          post : result,
+          page: page,
+          pageSize: pageSize,
+          startPage: startPage,
+          endPage: endPage,
+          totalPage: totalPage,
+          max: max,
+          session:false,
+          kind: req.query
+        };
+        if(req.session.email === undefined){
+          res.render("board", datas);
+        }
+        else{
+          var req_email = req.session.email;
+          var req_id = req_email.split("@");
+          datas.session = req_id;
+          res.render("board", datas);
+        }
+      });
       }
     });
   }

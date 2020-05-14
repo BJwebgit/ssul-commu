@@ -107,7 +107,8 @@ a{
 }
 #section-main{
   text-align: center;
-  padding: 10px 220px;
+  margin: auto 0;
+  padding: 55px 220px;
   font-size: 22px;
   background-color: dodgerblue;
   color: white;

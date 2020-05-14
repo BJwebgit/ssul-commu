@@ -71,39 +71,62 @@
                             <% } %>
                             <tr class="main-table" id="page">
                                 <td class="align" id="page_td" colspan="14">
-                                    <% if(page > 1){ %>
-                                        [<a href="/board/1">◀◀</a>]
-                                        [<a href="/board/<%= page - 1%>">◀</a>]
-                                    <% } else { %>
-                                        [<span style="color:gray">◀◀</span>]
-                                        [<span style="color:gray">◀</span>]
-                                    <% } %>
+                                    <% if(kind){ %>
+                                        <% if(page > 1){ %>
+                                            [<a href="/board/1?kinds=<%=kind.kinds%>&content=<%=kind.content%>">◀◀</a>]
+                                            [<a href="/board/<%= page - 1%>?kinds=<%=kind.kinds%>&content=<%=kind.content%>">◀</a>]
+                                        <% } else { %>
+                                            [<span style="color:gray">◀◀</span>]
+                                            [<span style="color:gray">◀</span>]
+                                        <% } %>
 
-                                    <% for(var i=startPage; i<= endPage; i++){ %>
-                                    <% if(i==page){ %>
-                                        [<span style="font-weight: bold;"><%=i%></span>]
-                                    <% } else { %>
-                                        [ <a href="/board/<%=i%>"><%=i%></a> ]
-                                    <% }}  %>    
-                                    
-                                    <% if(page < totalPage){ %>
-                                        [<a href="/board/<%= page + 1 %>">▶</a>]
-                                        [<a href="/board/<%= totalPage %>">▶▶</a>]
-                                    <% } else { %>
-                                        [<span style="color:gray">▶</span>]
-                                        [<span style="color:gray">▶▶</span>]
-                                    <% } %>
+                                        <% for(var i=startPage; i<= endPage; i++){ %>
+                                        <% if(i==page){ %>
+                                            [<span style="font-weight: bold;"><%=i%></span>]
+                                        <% } else { %>
+                                            [ <a href="/board/<%=i%>?kinds=<%=kind.kinds%>&content=<%=kind.content%>"><%=i%></a> ]
+                                        <% }}  %>    
+                                        
+                                        <% if(page < totalPage){ %>
+                                            [<a href="/board/<%= page + 1 %>?kinds=<%=kind.kinds%>&content=<%=kind.content%>">▶</a>]
+                                            [<a href="/board/<%= totalPage %>?kinds=<%=kind.kinds%>&content=<%=kind.content%>">▶▶</a>]
+                                        <% } else { %>
+                                            [<span style="color:gray">▶</span>]
+                                            [<span style="color:gray">▶▶</span>]
+                                    <% }}else { %>
+                                        <% if(page > 1){ %>
+                                            [<a href="/board/1">◀◀</a>]
+                                            [<a href="/board/<%= page - 1%>">◀</a>]
+                                        <% } else { %>
+                                            [<span style="color:gray">◀◀</span>]
+                                            [<span style="color:gray">◀</span>]
+                                        <% } %>
+
+                                        <% for(var i=startPage; i<= endPage; i++){ %>
+                                        <% if(i==page){ %>
+                                            [<span style="font-weight: bold;"><%=i%></span>]
+                                        <% } else { %>
+                                            [ <a href="/board/<%=i%>"><%=i%></a> ]
+                                        <% }}  %>    
+                                        
+                                        <% if(page < totalPage){ %>
+                                            [<a href="/board/<%= page + 1 %>">▶</a>]
+                                            [<a href="/board/<%= totalPage %>">▶▶</a>]
+                                        <% } else { %>
+                                            [<span style="color:gray">▶</span>]
+                                            [<span style="color:gray">▶▶</span>]
+                                    <% }} %>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
                 <div class="text_center">
-                    <form action="/board/<%=page%>">
+                    <form action="/board/1">
                         <select class="form-text" id="select_form" name="kinds" required>
                             <option value="title" selected>제목</option>
                             <option value="content">내용</option>
-                            <option value="title+content">제목+내용</option>
+                            <option value="titlecontent">제목+내용</option>
                             <option value="writer">작성자</option>
                         </select>
                         <input type="text" name="content" placeholder="검색어를 입력하세요">
