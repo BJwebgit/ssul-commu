@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+    <html lang="ko">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Ssul-login</title>
+        <link rel="stylesheet" href="/stylesheets/login.css">
+    </head>
+    <body>
+        <header>
+            <div class="center-align" id="header-div">
+                <div class="inline-block" id="header-left"><a href="/"></a></div>
+                <div class="inline-block" id="header-center"><a href="/">Ssul</a></div>
+                <div class="inline-block" id="header-right">
+                    <div class="inline-block">
+                        <ul class="dropdown">
+                            <button class="dropbtn" id="login_btn"><%=session[0]%>님▼</button>
+                            <li class="dropdown-content">
+                                <ul>
+                                    <li><a href="/mypage">회원정보 수정</a></li>
+                                    <li><a href="/secession">회원탈퇴</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <button id="logout"><a href="/logout">로그아웃</a></button>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <% include nav %>
+        <section>
+            <div class="center-align">
+                <div id="sign-main">
+                    <p id="login-p">회 원 탈 퇴</p>
+                    <form action="/secession" method="post" class="text-left">
+                        <input type="password" class="form-text" name="password" required>
+                        <input type="submit" value="확 인" id="form-button">
+                    </form>
+                </div>
+            </div>
+        </section>
+        <% include footer %>
+        <script>
+            var sign_up = document.getElementById('sign_up_btn');
+            var login = document.getElementById('login_btn');
+            sign_up.addEventListener('click', function(event){
+                location.href='./login/Sign_Up';
+            });
+            login.addEventListener('click', function(event){
+                location.href='./login';
+            });
+        </script>
+    </body>
+    </html>

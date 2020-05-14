@@ -15,8 +15,16 @@
                 <div class="inline-block" id="header-center"><a href="/">Ssul</a></div>
                 <div class="inline-block" id="header-right">
                     <div class="inline-block">
-                            <button id="mypage"><a href="/mypage">마이페이지</a></button> 
-                            <button id="logout"><a href="/logout">로그아웃</a></button>
+                        <ul class="dropdown">
+                            <button class="dropbtn" id="login_btn"><%=session[0]%>님▼</button>
+                            <li class="dropdown-content">
+                                <ul>
+                                    <li><a href="/mypage">회원정보 수정</a></li>
+                                    <li><a href="/secession">회원탈퇴</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <button id="logout"><a href="/logout">로그아웃</a></button>
                     </div>
                 </div>
             </div>
@@ -34,9 +42,9 @@
                         <p>비밀번호 확인 <span id="same"></span></p>
                         <input type="password" class="form-text" name="ptest" id="pwd_test" onchange="isSame()" required>
                         <p>닉네임 <span id="nick_check"></span></p>
-                        <input type="text" class="form-text" name="nickname" id="nick" required>
+                        <input type="text" class="form-text" name="nickname" id="nick" value="<%=post[0].nickname%>" required>
                         <p>전화번호</p>
-                        <input type="tel" class="form-text" name="tel" required>
+                        <input type="tel" class="form-text" name="tel" value="<%=post[0].tel%>" required>
                         <p>지역</p>
                         <select class="form-text" id="select_form" name="area" required>
                             <option value="1" selected>서울</option>

@@ -142,7 +142,7 @@ a{
 }
 .dropbtn {
   background-color: #E6E6E6;
-  padding: 4px 15px;
+  padding: 4px 30px;
   color: black;
   font-size: 16px;
   border: none;
@@ -177,8 +177,6 @@ a{
   text-decoration: none;
   display: block;
 }
-
-.dropdown-content a:hover {background-color: #ddd;}
 
 .dropdown:hover .dropdown-content {display: block;}
 

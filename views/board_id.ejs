@@ -19,7 +19,7 @@
                         <li class="dropdown-content">
                             <ul>
                                 <li><a href="/mypage">회원정보 수정</a></li>
-                                <li><a href="#">회원탈퇴</a></li>
+                                <li><a href="/secession">회원탈퇴</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -92,6 +92,7 @@
                                         <td colspan="8" class="border_all"><p class="w100" id="reply_content"><%= reply.content %></p></td>
                                         <% if(reply.writer === nick){ %> 
                                         <form action="/board/reply/<%=post.id%>?_method=DELETE" method="post" class="inline-block">
+                                            <input type="hidden" name="reply_id" value="<%= reply.id %>">
                                             <td><input type="submit" value="삭제하기" style="height: 65px;"></input></td>
                                         </form>
                                         <% } else{} %>

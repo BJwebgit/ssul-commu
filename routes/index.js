@@ -32,7 +32,6 @@ router.get('/', function(req, res, next) {
       else{
         var req_email = req.session.email;
         var req_id = req_email.split("@");
-        console.log(req_id);
         res.render("index", {
           posts: result, vposts: result2, session:req_id
         });
@@ -42,12 +41,14 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/mypage', function(req, res, next) {
+  var req_email = req.session.email;
+  var req_id = req_email.split("@");
   db.query(`select * FROM login where nickname=?`, 
   [req.session.nickname],
   function(error, result){
     if(error) console.log("[mysql] users DB -> user2.js error ");
     res.render('mypage', {
-      post: result, session: req.session
+      post: result, session: req_id
     });
   });
 });
@@ -59,12 +60,16 @@ router.post('/mypage', function(req, res, next) {
   db.query(`update login set password=?, nickname=?, tel=?, area=?, gender=? where email=?`,
   [hashPassword, post.nickname, post.tel, post.area, post.gender, post.email],
   function(error, result){
-    if(error) console.log("[mysql] login DB update error! ");
-    req.session.destroy(function(err){
-      if(err){
-        throw err
-      }
-      res.redirect("/login");
+    db.query(`update posts set writer=? where loginemail=?`,
+    [post.nickname, post.email],
+    function(error, result){
+      if(error) console.log("[mysql] login DB update error! ");
+      req.session.destroy(function(err){
+        if(err){
+          throw err
+        }
+        res.redirect("/login");
+      });
     });
   });
 });
@@ -80,6 +85,45 @@ router.get('/logout', function(req, res, next) {
       }
       res.redirect("/");
     });
+  });
+});
+
+router.get('/secession', function(req, res, next) {
+  var req_email = req.session.email;
+  var req_id = req_email.split("@");
+  db.query(`select * FROM login where nickname=?`, 
+  [req.session.nickname],
+  function(error, result){
+    if(error) console.log("[mysql] users DB -> user2.js error ");
+    res.render('secession', {
+      post: result, session: req_id
+    });
+  });
+});
+
+router.post('/secession', function(req, res, next) {
+  var post = req.body;
+  var inputPassword = post.password;
+  var hashPassword = crypto.createHash("sha512").update(inputPassword).digest("hex");
+  db.query(`select password from login where email=?`,
+  [req.session.email],
+  function(error, result){
+    if(error) console.log("[mysql] login DB update error! ");
+    if(hashPassword === result[0].password){
+      db.query(`delete from login where email=?`,
+      [req.session.email],
+      function(error, result){
+        req.session.destroy(function(err){
+          if(err){
+            throw err
+          }
+          res.redirect("/");
+        });
+      });
+    }
+    else{
+      res.redirect("/secession");
+    }
   });
 });
 
@@ -114,7 +158,6 @@ router.post('/board/write', function(req, res, next) {
 router.get('/board/:page', function(req, res, next) {
   var page = req.params.page;
   var kind = req.query.kinds;
-  console.log(page);
   page = parseInt(page, 10);
   var size = 10;
   var begin = (page-1)*size;
@@ -271,23 +314,15 @@ router.post('/board/user/:id', function(req, res, next) {
 
 router.get('/board/update/:id', function(req, res, next) {
   let postID = req.params.id;
-
+  var req_email = req.session.email;
+  var req_id = req_email.split("@");
   models.post.findOne({
     where: {id: postID}
   })
   .then( result => {
-    if(req.session.email === undefined){
-      res.render("update", {
-        post: result, session: req.session
-      });
-    }
-    else{
-      var req_email = req.session.email;
-      var req_id = req_email.split("@");
-      res.render("update", {
-        post: result, session: req.session
-      });
-    }
+    res.render("update", {
+      post: result, session: req_id
+    });
   })
   .catch( err => {
     console.log("데이터 조회 실패");
@@ -328,13 +363,14 @@ router.delete('/board/:id', function(req, res, next) {
 });
 
 router.delete('/board/reply/:id', function(req, res, next) {
+  let post = req.body;
   let nick = req.session.nickname;
-
+  let postID = req.params.id;
   models.reply.destroy({
-    where: {writer: nick}
+    where: {id: post.reply_id}
   })
   .then( result => {
-    res.redirect("/board/1")
+    res.redirect(`/board/user/${postID}`);
   })
   .catch( err => {
     console.log("데이터 삭제 실패");
