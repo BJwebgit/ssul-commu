@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Ssul</title>
         <link rel="stylesheet" href="/stylesheets/Sign_Up.css">
+        <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@700&display=swap" rel="stylesheet">
         <script type="text/javascript" src="../node_modules/jquery/dist/jquery.js"></script>
         <script type="text/javascript" src="/javascripts/mypage.js"></script>
     </head>
@@ -36,15 +37,15 @@
                     <p style="font-size: 50px;">회원정보 수정</p>
                     <form action="/mypage" method="post" class="text-left" id="target" onsubmit="return submitCheck()">
                         <p>이메일 주소 <span id="email_id"></span></p>
-                        <input type="email" class="form-text" value="<%=post[0].email%>" name="email" id="id" readonly>
+                        <input type="email" class="form-text" value="<%=post[0].email%>" name="email" id="id" onkeyup="noSpaceForm(this)" readonly>
                         <p>비밀번호 <span id="pwd_length"></span></p> 
                         <input type="password" class="form-text" name="password" id="pwd" onchange="isSame()" required>
                         <p>비밀번호 확인 <span id="same"></span></p>
                         <input type="password" class="form-text" name="ptest" id="pwd_test" onchange="isSame()" required>
                         <p>닉네임 <span id="nick_check"></span></p>
-                        <input type="text" class="form-text" name="nickname" id="nick" value="<%=post[0].nickname%>" required>
-                        <p>전화번호</p>
-                        <input type="tel" class="form-text" name="tel" value="<%=post[0].tel%>" required>
+                        <input type="text" class="form-text" name="nickname" id="nick" value="<%=post[0].nickname%>" onkeyup="noSpaceForm(this)" required>
+                        <p>전화번호 <span id="tel_check"></span></p>
+                        <input type="tel" class="form-text" name="tel" id="phone" value="<%=post[0].tel%>" onkeyup="noSpaceForm(this)" required>
                         <p>지역</p>
                         <select class="form-text" id="select_form" name="area" required>
                             <option value="1" selected>서울</option>
@@ -56,7 +57,7 @@
                             <input type="radio" name="gender" value="남" checked>남자
                             <input type="radio" name="gender" value="여">여자
                         </div>
-                        <input type="submit" value="회원정보 저장" id="form-button">
+                        <input type="submit" value="회원정보 저장" id="form-button" onmousedown="checkall(this)">
                     </form>
                 </div>
             </div>

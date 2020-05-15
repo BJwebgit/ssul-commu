@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Ssul</title>
         <link rel="stylesheet" href="/stylesheets/Sign_Up.css">
+        <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@700&display=swap" rel="stylesheet">
         <script type="text/javascript" src="../node_modules/jquery/dist/jquery.js"></script>
         <script type="text/javascript" src="/javascripts/sign.js"></script>
     </head>
@@ -24,8 +25,8 @@
                         <input type="password" class="form-text" name="ptest" id="pwd_test" onchange="isSame()" required>
                         <p>닉네임 <span id="nick_check"></span></p>
                         <input type="text" class="form-text" name="nickname" id="nick" required>
-                        <p>전화번호</p>
-                        <input type="tel" class="form-text" name="tel" required>
+                        <p>전화번호 <span id="tel_check"></span></p>
+                        <input type="tel" class="form-text" name="tel" id="phone" required>
                         <p>지역</p>
                         <select class="form-text" id="select_form" name="area" required>
                             <option value="1" selected>서울</option>

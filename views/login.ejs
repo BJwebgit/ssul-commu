@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Ssul-login</title>
         <link rel="stylesheet" href="/stylesheets/login.css">
+        <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@700&display=swap" rel="stylesheet">
     </head>
     <body>
         <% include header %>
@@ -14,6 +15,7 @@
                 <div id="sign-main">
                     <p id="login-p">로 그 인</p>
                     <form action="/login" method="post" class="text-left">
+                        <input type="hidden" name="be_url" value="<%=be_url%>">
                         <input type="email" class="form-text" name="email" required>
                         <input type="password" class="form-text" name="password" required>
                         <input type="submit" value="로 그 인" id="form-button">

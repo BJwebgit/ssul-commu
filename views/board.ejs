@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ssul</title>
     <link rel="stylesheet" href="/stylesheets/board.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@700&display=swap" rel="stylesheet">
     <script type="text/javascript" src="/javascripts/board.js"></script>
 </head>
 <body>
@@ -59,11 +60,7 @@
                             <% for(var i = 0; i<post.length; i++) { %>
                             <tr class="main-table">
                                 <td class="align"><%= post[i].id %></td>
-                                <% if(session){ %> 
-                                    <td colspan="8" class="title-td"><a href="./user/<%= post[i].id %>"><%= post[i].title %></a></td>
-                                <% } else{ %>
-                                    <td colspan="8" class="title-td"><a href="../login"><%= post[i].title %></a></td>
-                                <% } %>
+                                <td colspan="8" class="title-td"><a href="./user/<%= post[i].id %>"><%= post[i].title %></a></td>
                                 <td colspan="2" class="align"><%= post[i].writer %></td>
                                 <td colspan="2" class="align"><%= post[i].createdAt.toLocaleString() %></td>
                                 <td class="align"><%= post[i].views %></td>

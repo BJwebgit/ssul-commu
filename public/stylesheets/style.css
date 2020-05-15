@@ -4,7 +4,7 @@
 body{
   margin: 0;
   padding: 0;
-  font-family: Dotum,'돋움',Helvetica,"Apple SD Gothic Neo",sans-serif;
+  font-family: 'Nanum Myeongjo', sans-serif, Dotum,'돋움',Helvetica,"Apple SD Gothic Neo",sans-serif;
 }
 ul,li{
   margin: 0 5px;
@@ -114,6 +114,7 @@ a{
   color: white;
 }
 #section-main h1{
+  margin: 35px 0;
   font-size: 50px;
   font-family: Georgia, 'Times New Roman', Times, serif;
   font-style: italic;

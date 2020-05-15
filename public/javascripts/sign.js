@@ -2,6 +2,7 @@ var e_mail = 0;
 var pword = 0;
 var t_pword = 0;
 var nick_name = 0;
+var tel = 0
 
 window.onload = function(){
     var sign_up = document.getElementById('sign_up_btn');
@@ -50,7 +51,7 @@ $(function () {
     })
     $('#pwd').blur(function () {
         var pw = $("#pwd").val();
-        var regex = /^.*(?=^.{8,15}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$/;
+        var regex = /^.*(?=^.{8,20}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$/;
         if ($('#pwd').val() != ''){
             if(false === regex.test(pw)) {
                 $("#pwd_length").html("8~20자 영문, 숫자, 특수문자를 모두 사용해야합니다");
@@ -82,26 +83,59 @@ $(function () {
                 console.log("ajax에서 받은 값은 : " + data);
                 if ($.trim(data) === '1') {
                     if ($('#nick').val() != '') {
-                        $("#nick_check").html("사용가능합니다");
+                        var nick = $('#nick').val();
+                        var regex = /^[a-zA-Z0-9가-힣]{3,8}$/;
+                        if(regex.test(nick) === false){
+                            $("#nick_check").html("3~8자 입력해주세요※특수문자 사용불가※)");
+                            $("#nick_check").css("color", "red");
+                            $("#nick_check").css("font-size", "12px");
+                            nick_name = 0;
+                        }
+                        else{
+                            $("#nick_check").html("사용가능합니다");
+                            $("#nick_check").css("color", "red");
+                            $("#nick_check").css("font-size", "12px");
+                            nick_name = 1;
+                        }
+                    }
+                    else{
+                        $("#nick_check").html("필수입력사항");
                         $("#nick_check").css("color", "red");
                         $("#nick_check").css("font-size", "12px");
-                        nick_name = 1;
+                        nick_name = 0;
                     }
                 } 
-                else if($.trim(data) === '0'){
-                    $("#nick_check").html("사용불가능합니다");
+                else {
+                    $("#nick_check").html("이미 사용중입니다");
                     $("#nick_check").css("color", "red");
                     $("#nick_check").css("font-size", "12px");
                     nick_name = 0;
                 }
-                else {
-                    if ($('#nick').val() != '') {
-                        alert(data);
-                        nick_name = 0;
-                    }
-                }
             }
         })
+    })
+    $('#phone').blur(function () {
+        var phone = $("#phone").val();
+        var regex = /^(01[016789]{1}|02|0[3-9]{1}[0-9]{1})-?[0-9]{3,4}-?[0-9]{4}$/;
+
+        if ($('#phone').val() != '') {
+            if (false === regex.test(phone)) {
+                $("#tel_check").html("전화번호 양식이 아닙니다");
+                $("#tel_check").css("color", "red");
+                $("#tel_check").css("font-size", "12px");
+                tel = 0;
+            } else {
+                $("#tel_check").html("사용가능합니다");
+                $("#tel_check").css("color", "red");
+                $("#tel_check").css("font-size", "12px");
+                tel = 1;
+            }
+        } else {
+            $("#tel_check").html("필수정보입니다");
+            $("#tel_check").css("color", "red");
+            $("#tel_check").css("font-size", "12px");
+            tel = 0;
+        }
     })
 })
 function isSame(){            
@@ -139,6 +173,9 @@ function submitCheck() {
         return false;
     } else if (nick_name === 0) {
         alert('닉네임 조건이 맞지 않습니다.');
+        return false;
+    } else if (tel === 0) {
+        alert('전화번호 조건이 맞지 않습니다.');
         return false;
     }
     else{

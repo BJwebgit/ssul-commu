@@ -4,6 +4,7 @@ const router = express.Router();
 const db = require('../lib/db');
 const methodOverride = require('method-override');
 const crypto = require('crypto');
+const url = require('url');
 
 function kind_f(kind){
   return `select * from posts where ${kind} like ? order by createdAt desc limit ?,?`
@@ -147,7 +148,7 @@ router.post('/board/write', function(req, res, next) {
     views: 1
   })
   .then( result => {
-    console.log("데이터 추가 완료");
+    console.log("데이터 추가 완료");console.log(req_q.user);
     res.redirect("/board/1");
   })
   .catch( err => {
@@ -275,8 +276,6 @@ router.get('/board/:page', function(req, res, next) {
 });
 
 router.get('/board/user/:id', function (req, res, next) {
-  var req_email = req.session.email;
-  var req_id = req_email.split("@");
   var req_nickname = req.session.nickname;
   let postID = req.params.id;
   models.post.findOne({
@@ -288,9 +287,18 @@ router.get('/board/user/:id', function (req, res, next) {
       models.reply.findAll({
         where:{postId:postID}
       }).then(result2 =>{ 
-      res.render("board_id", {
-        post: result, replies:result2, session:req_id, nick: req_nickname
-      });
+        if(req.session.email === undefined){
+          res.render("board_id", {
+            post: result, replies:result2, session:false, nick: req_nickname
+          });
+        }
+        else{
+          var req_email = req.session.email;
+          var req_id = req_email.split("@");
+          res.render("board_id", {
+            post: result, replies:result2, session:req_id, nick: req_nickname
+          });
+        }
     })
     })
   })
@@ -299,7 +307,9 @@ router.get('/board/user/:id', function (req, res, next) {
 router.post('/board/user/:id', function(req, res, next) {
   let postID = req.params.id;
   let body = req.body;
+  let post = req.session.email;
   models.reply.create({
+    re_email: post,
     postId: postID,
     writer: body.inputWriter,
     content: body.content

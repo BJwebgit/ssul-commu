@@ -7,12 +7,14 @@ const crypto = require('crypto');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  res.render('login');
+  let be_url = req.headers.referer;
+  res.render('login', {be_url: be_url});
 });
 
 router.post('/', function(req, res, next) {
-  var post = req.body;
-  var inputPassword = post.password;
+  let post = req.body;
+  let inputPassword = post.password;
+  console.log(req.headers.referer);
   db.query(`select email, password, nickname from login where email=?`,
     [post.email],
     function(err, result){
@@ -29,7 +31,7 @@ router.post('/', function(req, res, next) {
           console.log("비밀번호 일치");
           req.session.email = post.email;
           req.session.nickname = result[0].nickname;
-          res.redirect("/");
+          res.redirect(`${post.be_url}`);
         }
         else{
           console.log("비밀번호 불일치");
@@ -77,7 +79,7 @@ router.post('/Sign_Up/sign_up', function(req, res, next) {
       if(err){
           throw err;
       }
-      res.redirect("/");
+      res.redirect("/login");
   });
 });
 
@@ -108,9 +110,14 @@ router.post('/check_nick', function(req, res, next) {
     if(error) console.log("[mysql] users DB -> user2.js error ");
     for(var i = 0; i<db_nick.length; i++){
       if(db_nick[i].nickname === form_nick){
-        res.send('0');
-        console.log("ID CHECK ajax로 전송완료");
-        break;
+        if(form_nick === req.session.nickname){
+          check = 2;
+          res.send('2');
+        }
+        else{
+          check = 1;
+          res.send('0');
+        }
       }
     }
     if(check === 0){
