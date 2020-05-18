@@ -7,14 +7,19 @@ const crypto = require('crypto');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  let be_url = req.headers.referer;
+  var be_url = req.headers.referer;
+  if(req.headers.referer === 'http://localhost:3000/login'){
+    be_url = req.session.rout;
+  }
+  else{
+    req.session.rout = be_url;
+  }
   res.render('login', {be_url: be_url});
 });
 
 router.post('/', function(req, res, next) {
   let post = req.body;
   let inputPassword = post.password;
-  console.log(req.headers.referer);
   db.query(`select email, password, nickname from login where email=?`,
     [post.email],
     function(err, result){
@@ -62,11 +67,16 @@ router.post('/check_login', function(req, res, next) {
 });
 
 router.get('/Sign_Up', function(req, res, next) {
-  models.post.findAll().then( result => {
-    res.render("Sign_Up", {
-      posts: result
+  if(req.session.email === undefined){
+    models.post.findAll().then( result => {
+      res.render("Sign_Up", {
+        posts: result
+      });
     });
-  });
+  }
+  else{
+    res.redirect('/');
+  }
 });
 
 router.post('/Sign_Up/sign_up', function(req, res, next) {
