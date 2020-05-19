@@ -116,6 +116,11 @@ tbody {
 .text_center{
     text-align: center;
 }
+.title-td{
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
 /* footer */
 #footer-div{
     height: 127px;

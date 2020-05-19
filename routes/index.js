@@ -148,7 +148,7 @@ router.post('/board/write', function(req, res, next) {
     views: 1
   })
   .then( result => {
-    console.log("데이터 추가 완료");console.log(req_q.user);
+    console.log("데이터 추가 완료");
     res.redirect("/board/1");
   })
   .catch( err => {

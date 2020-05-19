@@ -103,8 +103,6 @@ td > input,textarea {
 .w100{
     width: 100%;
     padding: 3px 10px;
-    border-radius: 5px;
-    border: 1px solid #E6E6E6;
 }
 #submit-btn{
     float: right;
@@ -116,22 +114,50 @@ td > input,textarea {
     display: inline-block;
 }
 .up-del-btn{
-    float:right;
+    text-align: right;
 }
 .border_all{
-    border: 1px solid #E6E6E6;
     font-size: 15px;
 }
 #delete_btn{
     float:right;
     width: 100%;
 }
-#reply_content{
-    padding: 0 15px;
-}
 
 #logout{
     padding: 3px 5px;
+}
+#reply_ul, #reply_ul li{
+    width: 100%;
+}
+#reply_main_div{
+    padding: 10px 10px 0 100px;
+}
+#reply_profile{
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}
+#reply_ul p{
+    margin: 0;
+    padding: 0;
+}
+#writer_name{
+    font-size: 20px;
+}
+#delete_btn{
+    color: #000000;
+    border: #000000 solid 1px;
+    background-color: #ffffff;
+    border-radius: 5px;
+}
+#delete_btn:hover{
+    color: #ffffff;
+    background-color: #000000;
+}
+.border_bottom{
+    position: relative;
+    border-bottom: 1px solid #E6E6E6;
 }
 
 .dropbtn {
